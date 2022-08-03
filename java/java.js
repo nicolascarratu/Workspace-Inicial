@@ -1,0 +1,2 @@
+function example()
+  alert ('example')
