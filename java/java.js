@@ -1,2 +1,0 @@
-function example()
-  alert ('example')
