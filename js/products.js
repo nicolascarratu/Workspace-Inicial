@@ -37,4 +37,4 @@ function autos(LIST_url) {
             }
         })
     })}
-console.log(autos())
+console.log(autos(LIST_url))
