@@ -28,7 +28,7 @@ function showCategoriesList() {
     }
 
 
-function test(LIST_url) {
+function autos(LIST_url) {
     document.addEventListener("DOMContentLoaded", function (e) {
         getJSONData(LIST_url).then(function (resultObj) {
             if (resultObj.status === "ok") {
@@ -37,4 +37,4 @@ function test(LIST_url) {
             }
         })
     })}
-console.log(test())
+console.log(autos())
