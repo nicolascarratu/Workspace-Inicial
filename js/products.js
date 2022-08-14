@@ -4,7 +4,7 @@ function showCategoriesList() {
 
     let htmlContentToAppend = "";
     for (let i = 0; i < currentCategoriesArray.length; i++) {
-        let category = currentCategoriesArray[i];
+        let products = currentCategoriesArray[i];
 
             htmlContentToAppend += `
             <div onclick="setCatID(${products.id})" class="list-group-item list-group-item-action cursor-active">
