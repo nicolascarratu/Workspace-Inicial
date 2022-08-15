@@ -5,12 +5,11 @@ function showProductsList(array) {
     let htmlContentToAppend = "";
     for (let i = 0; i < array.length; i++) {
         let listado = array[i];
-
         htmlContentToAppend += `
             <div onclick="setCatID(${listado.catID})" class="list-group-item list-group-item-action cursor-active">
                 <div class="row">
                     <div class="col-3">
-                        <img src="${products.image}" alt="${products.description}" class="img-thumbnail">
+                        <img src="${products.image}" alt="${listado.products.description}" class="img-thumbnail">
                     </div>
                     <div class="col">
                         <div class="d-flex w-100 justify-content-between">
@@ -22,9 +21,9 @@ function showProductsList(array) {
                 </div>
             </div>
             `
+        document.getElementById("cars").innerHTML = htmlContentToAppend;
     }
-
-    document.getElementById("cars").innerHTML = htmlContentToAppend;
+    console.log(htmlContentToAppend)
 }
 
 
@@ -39,4 +38,3 @@ document.addEventListener("DOMContentLoaded", function (e) {
     })
 })
 
-console.log(getJSONData(LIST_url))
