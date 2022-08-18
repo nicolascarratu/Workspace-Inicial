@@ -188,3 +188,47 @@ a.custom-card:hover {
 .checked {
   color: orange;
 }
+
+.login{
+  margin: 0;
+  position: absolute;
+  top: 30%;
+  left: 45%;
+}
+
+#sesion{
+  text-align: center;
+}
+.datos{
+  text-align: center;
+}
+
+#picture{
+  position: absolute;
+  transform: scale(50%,50%);
+  left: 20.5%;
+  bottom: 60%;
+}
+
+#boton{
+  position: absolute;
+  top: 110%;
+  left: 30%;
+  background-color:#0087F7 ;
+  -webkit-text-fill-color: white;
+  transform: scale(110%,110%);
+  border-color:#0087F7;
+}
+
+.box{
+  position: relative;
+  width: 125%;
+  right: 12.5%;
+}
+
+.error_box{
+  position: relative;
+  width: 125%;
+  right: 12.5%;
+  border-color: rgb(221, 66, 66);
+}
