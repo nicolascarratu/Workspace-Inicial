@@ -25,7 +25,6 @@ function showProductsList(array) {
         document.getElementById("cars").innerHTML = htmlContentToAppend;
         
     }
-    console.log(htmlContentToAppend)
 }
 
 document.addEventListener("DOMContentLoaded", function (e) {
