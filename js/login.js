@@ -1,7 +1,8 @@
 let email = document.getElementById('email')
 let password = document.getElementById('password')
 
-function redireccion() {
+
+document.getElementById('boton').addEventListener('click', function () {
     if (email.value != '' && password.value != '') {
         window.location.href = 'portada.html';
     } else {
@@ -9,7 +10,8 @@ function redireccion() {
         document.getElementById('password').className = 'error_box'
         alert('Los datos no pueden estar vacios')
     }
-}
+})
+
 
 
 
