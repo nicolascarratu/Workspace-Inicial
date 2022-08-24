@@ -27,8 +27,10 @@ function showProductsList(array) {
     }
 }
 
+let url = PRODUCTS_URL + localStorage.getItem('catID') + '.json'
+
 document.addEventListener("DOMContentLoaded", function (e) {
-    getJSONData(LIST_url).then(function (resultObj) {
+    getJSONData(url).then(function (resultObj) {
         if (resultObj.status === "ok") {
             productsArray = resultObj.data;
             showProductsList(productsArray);
