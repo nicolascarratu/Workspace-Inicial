@@ -1,6 +1,6 @@
 let currentProductsArray = [];
 const ORDER_BY_SOLD_COUNT = "Cant.";
-const ORDER_BY_PRICE  = 'Price';
+const ORDER_BY_PRICE = 'Price';
 let currentSortCriteria = undefined;
 let minCount = undefined;
 let maxCount = undefined;
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(url).then(function (resultObj) {
         if (resultObj.status === "ok") {
             currentProductsArray = resultObj.data.products;
-            
+
             showProductsList(currentProductsArray);
 
         }
@@ -101,29 +101,27 @@ document.addEventListener("DOMContentLoaded", function (e) {
         sortAndShowProducts(ORDER_BY_SOLD_COUNT);
     });
 
+
+    document.getElementById("filtroRange").addEventListener("click", function () {
+
+        minCount = document.getElementById("filtroMin").value;
+        maxCount = document.getElementById("filtroMax").value;
+
+        if ((minCount != undefined) && (minCount != "") && (parseInt(minCount)) >= 0) {
+            minCount = parseInt(minCount);
+        }
+        else {
+            minCount = undefined;
+        }
+
+        if ((maxCount != undefined) && (maxCount != "") && (parseInt(maxCount)) >= 0) {
+            maxCount = parseInt(maxCount);
+        }
+        else {
+            maxCount = undefined;
+        }
+        showProductsList(currentProductsArray);
+    });
+
 })
-
-
-document.getElementById("filtroRange").addEventListener("click", function () {
-
-    minCount = document.getElementById("filtroMin").value;
-    maxCount = document.getElementById("filtroMax").value;
-
-    if ((minCount != undefined) && (minCount != "") && (parseInt(minCount)) >= 0) {
-        minCount = parseInt(minCount);
-    }
-    else {
-        minCount = undefined;
-    }
-
-    if ((maxCount != undefined) && (maxCount != "") && (parseInt(maxCount)) >= 0) {
-        maxCount = parseInt(maxCount);
-    }
-    else {
-        maxCount = undefined;
-    }
-    showProductsList(currentProductsArray);
-});
-
-
 
