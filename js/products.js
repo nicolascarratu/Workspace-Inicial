@@ -105,6 +105,9 @@ document.addEventListener("DOMContentLoaded", function (e) {
     });
     document.getElementById("filtroRange").addEventListener("click", function () {
 
+
+    document.getElementById("filtroRange").addEventListener("click", function () {
+
         minCount = document.getElementById("filtroMin").value;
         maxCount = document.getElementById("filtroMax").value;
 
@@ -129,5 +132,9 @@ document.addEventListener("DOMContentLoaded", function (e) {
     })
 })
 
+
+
+
+})
 
 
