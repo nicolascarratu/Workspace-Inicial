@@ -103,7 +103,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
     document.getElementById("sortByProdCount").addEventListener("click", function () {
         sortAndShowProducts(ORDER_BY_SOLD_COUNT);
     });
-    document.getElementById("filtroRange").addEventListener("click", function () {
 
 
     document.getElementById("filtroRange").addEventListener("click", function () {
@@ -130,11 +129,5 @@ document.addEventListener("DOMContentLoaded", function (e) {
     search.addEventListener('input', function () {
         showProductsList(currentProductsArray)
     })
-})
 
-
-
-
-})
-
-
+}) 
