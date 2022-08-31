@@ -95,7 +95,7 @@ function sortAndShowProducts(sortCriteria, productsArray) {
     showProductsList(currentProductsArray);
 }
 
-let catID = localStorage.getItem('catID')
+let catID = sessionStorage.getItem('catID')
 let url = PRODUCTS_URL + catID + '.json'
 
 let categorias_ID = {
