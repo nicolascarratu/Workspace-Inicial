@@ -109,7 +109,7 @@ let categorias_ID = {
     '108': '7',
     '109': '8',
 }
-let hola = []
+let categorias = []
 document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(url).then(function (resultObj) {
         if (resultObj.status === "ok") {
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
             getJSONData(CATEGORIES_URL).then(function (resultObj) {
                 if (resultObj.status === "ok") {
                     categorias = resultObj.data;
-                    document.getElementById('description').innerHTML = hola[categorias_ID[catID]].description
+                    document.getElementById('description').innerHTML = categorias[categorias_ID[catID]].description
                 }
             })
             showProductsList(currentProductsArray);
