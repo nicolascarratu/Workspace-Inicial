@@ -94,8 +94,22 @@ function sortAndShowProducts(sortCriteria, productsArray) {
     currentProductsArray = sortProducts(currentSortCriteria, currentProductsArray);
     showProductsList(currentProductsArray);
 }
-let url = PRODUCTS_URL + localStorage.getItem('catID') + '.json'
 
+let catID = localStorage.getItem('catID')
+let url = PRODUCTS_URL + catID + '.json'
+
+let categorias_ID = {
+    '101': '0',
+    '102': '1',
+    '103': '2',
+    '104': '3',
+    '105': '4',
+    '106': '5',
+    '107': '6',
+    '108': '7',
+    '109': '8',
+}
+let hola = []
 document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(url).then(function (resultObj) {
         if (resultObj.status === "ok") {
@@ -103,12 +117,14 @@ document.addEventListener("DOMContentLoaded", function (e) {
             document.getElementById('product').innerHTML = resultObj.data.catName
             getJSONData(CATEGORIES_URL).then(function (resultObj) {
                 if (resultObj.status === "ok") {
-                    document.getElementById('description').innerHTML = resultObj.data.description}})
+                    categorias = resultObj.data;
+                    document.getElementById('description').innerHTML = hola[categorias_ID[catID]].description
+                }
+            })
             showProductsList(currentProductsArray);
-
         }
     })
-    
+
     document.getElementById("clearRange").addEventListener("click", function () {
         document.getElementById("filtroMin").value = "";
         document.getElementById("filtroMax").value = "";
