@@ -1,10 +1,12 @@
 let currentProductsArray = [];
 const ORDER_BY_SOLD_COUNT = "Cant.";
-const ORDER_BY_PRICE = 'Price';
+const ORDER_BY_PRICE_UP = 'Price_up';
+const ORDER_BY_PRICE_DOWN = 'Price_down';
 let currentSortCriteria = undefined;
 let minCount = undefined;
 let maxCount = undefined;
 let search = document.getElementById('search');
+
 function sortProducts(criteria, array) {
 
     let result = [];
@@ -21,9 +23,9 @@ function sortProducts(criteria, array) {
         });
     }
 
-    if (criteria === ORDER_BY_PRICE) {
+    if (criteria === ORDER_BY_PRICE_UP) {
 
-        result = array.products.sort(function (a, b) {
+        result = array.sort(function (a, b) {
 
             let aCount = parseInt(a.cost);
             let bCount = parseInt(b.cost);
@@ -33,6 +35,19 @@ function sortProducts(criteria, array) {
             return 0;
         });
     }
+    if (criteria === ORDER_BY_PRICE_DOWN) {
+
+        result = array.sort(function (a, b) {
+
+            let aCount = parseInt(a.cost);
+            let bCount = parseInt(b.cost);
+
+            if (aCount < bCount) { return -1; }
+            if (aCount > bCount) { return 1; }
+            return 0;
+        });
+    }
+
     return result;
 
 }
@@ -85,11 +100,15 @@ document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(url).then(function (resultObj) {
         if (resultObj.status === "ok") {
             currentProductsArray = resultObj.data.products;
-
+            document.getElementById('product').innerHTML = resultObj.data.catName
+            getJSONData(CATEGORIES_URL).then(function (resultObj) {
+                if (resultObj.status === "ok") {
+                    document.getElementById('description').innerHTML = resultObj.data.description}})
             showProductsList(currentProductsArray);
 
         }
     })
+    
     document.getElementById("clearRange").addEventListener("click", function () {
         document.getElementById("filtroMin").value = "";
         document.getElementById("filtroMax").value = "";
@@ -101,9 +120,20 @@ document.addEventListener("DOMContentLoaded", function (e) {
     });
 
     document.getElementById("sortByProdCount").addEventListener("click", function () {
+        console.log('hi')
         sortAndShowProducts(ORDER_BY_SOLD_COUNT);
     });
 
+    document.getElementById('maxPrice').addEventListener('click', function () {
+        console.log('max')
+        sortAndShowProducts(ORDER_BY_PRICE_UP);
+
+    });
+
+    document.getElementById('minPrice').addEventListener('click', function () {
+        console.log('min')
+        sortAndShowProducts(ORDER_BY_PRICE_DOWN);
+    });
 
     document.getElementById("filtroRange").addEventListener("click", function () {
 
