@@ -14,12 +14,7 @@ function sortProducts(criteria, array) {
 
         result = array.sort(function (a, b) {
 
-            let aCount = parseInt(a.soldCount);
-            let bCount = parseInt(b.soldCount);
-
-            if (aCount > bCount) { return -1; }
-            if (aCount < bCount) { return 1; }
-            return 0;
+            return parseInt(b.soldCount) - parseInt(a.soldCount);
         });
     }
 
@@ -27,24 +22,14 @@ function sortProducts(criteria, array) {
 
         result = array.sort(function (a, b) {
 
-            let aCount = parseInt(a.cost);
-            let bCount = parseInt(b.cost);
-
-            if (aCount > bCount) { return -1; }
-            if (aCount < bCount) { return 1; }
-            return 0;
+            return parseInt(b.cost) - parseInt(a.cost);
         });
     }
     if (criteria === ORDER_BY_PRICE_DOWN) {
 
         result = array.sort(function (a, b) {
 
-            let aCount = parseInt(a.cost);
-            let bCount = parseInt(b.cost);
-
-            if (aCount < bCount) { return -1; }
-            if (aCount > bCount) { return 1; }
-            return 0;
+            return parseInt(a.cost) - parseInt(b.cost);
         });
     }
 
@@ -57,8 +42,7 @@ function showProductsList(array) {
     for (let i = 0; i < array.length; i++) {
         let product = array[i];
         let search_val = search.value;
-        if (((minCount == undefined) || (minCount != undefined && parseInt(product.cost) >= minCount)) &&
-            ((maxCount == undefined) || (maxCount != undefined && parseInt(product.cost) <= maxCount))) {
+        if (!(parseInt(product.cost) < minCount) && !(parseInt(product.cost) > maxCount))  {
 
             if (product.name.toLowerCase().includes(search_val.toLowerCase()) || product.description.toLowerCase().includes(search_val.toLowerCase())) {
                 htmlContentToAppend += `
@@ -136,18 +120,18 @@ document.addEventListener("DOMContentLoaded", function (e) {
     });
 
     document.getElementById("sortByProdCount").addEventListener("click", function () {
-        console.log('hi')
+
         sortAndShowProducts(ORDER_BY_SOLD_COUNT);
     });
 
     document.getElementById('maxPrice').addEventListener('click', function () {
-        console.log('max')
+   
         sortAndShowProducts(ORDER_BY_PRICE_UP);
 
     });
 
     document.getElementById('minPrice').addEventListener('click', function () {
-        console.log('min')
+     
         sortAndShowProducts(ORDER_BY_PRICE_DOWN);
     });
 
