@@ -35,10 +35,6 @@ function sortCategories(criteria, array){
     return result;
 }
 
-function setCatID(id) {
-    sessionStorage.setItem("catID", id);
-    window.location = "products.html"
-}
 
 function showCategoriesList(){
 
