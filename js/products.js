@@ -42,11 +42,11 @@ function showProductsList(array) {
     for (let i = 0; i < array.length; i++) {
         let product = array[i];
         let search_val = search.value;
-        if (!(parseInt(product.cost) < minCount) && !(parseInt(product.cost) > maxCount))  {
+        if (!(parseInt(product.cost) < minCount) && !(parseInt(product.cost) > maxCount)) {
 
             if (product.name.toLowerCase().includes(search_val.toLowerCase()) || product.description.toLowerCase().includes(search_val.toLowerCase())) {
                 htmlContentToAppend += `
-                <div class="list-group-item list-group-item-action cursor-active">
+                <div onclick="setProdID(${product.id})" class="list-group-item list-group-item-action cursor-active">
                     <div class="row">
                         <div class="col-3">
                             <img src="${product.image}" alt="${product.description}" class="img-thumbnail">
@@ -81,6 +81,12 @@ function sortAndShowProducts(sortCriteria, productsArray) {
 
 let catID = sessionStorage.getItem('catID')
 let url = PRODUCTS_URL + catID + '.json'
+
+function setProdID(id) {
+    sessionStorage.setItem("prodID", id);
+    window.location = "product-info.html"
+}
+
 
 let categorias_ID = {
     '101': '0',
@@ -125,13 +131,13 @@ document.addEventListener("DOMContentLoaded", function (e) {
     });
 
     document.getElementById('maxPrice').addEventListener('click', function () {
-   
+
         sortAndShowProducts(ORDER_BY_PRICE_UP);
 
     });
 
     document.getElementById('minPrice').addEventListener('click', function () {
-     
+
         sortAndShowProducts(ORDER_BY_PRICE_DOWN);
     });
 
