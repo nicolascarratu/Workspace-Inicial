@@ -6,3 +6,8 @@ function setCatID(id) {
     sessionStorage.setItem("catID", id);
     window.location = "products.html"
 }
+//Lo mismo en este caso. 
+function setProdID(id) {
+    sessionStorage.setItem("prodID", id);
+    window.location = "product-info.html"
+}

@@ -82,12 +82,6 @@ function sortAndShowProducts(sortCriteria, productsArray) {
 let catID = sessionStorage.getItem('catID')
 let url = PRODUCTS_URL + catID + '.json'
 
-function setProdID(id) {
-    sessionStorage.setItem("prodID", id);
-    window.location = "product-info.html"
-}
-
-
 let categorias_ID = {
     '101': '0',
     '102': '1',

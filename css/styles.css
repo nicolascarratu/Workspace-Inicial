@@ -232,3 +232,7 @@ a.custom-card:hover {
   right: 12.5%;
   border-color: rgb(221, 66, 66);
 }
+
+/* #product_images{
+  transform: scale(50%,50%);
+} */
