@@ -236,6 +236,24 @@ a.custom-card:hover {
 .checked{
   color: orange;
 }
+
+.hide{
+  display: none;
+}
+
+.show{
+  display: block;
+}
+
+#comment-box{
+  height: 50%;
+  width: 50%;
+}
+
+#cantidad{
+  width: 12%;
+}
+
 /* #product_images{
   transform: scale(50%,50%);
 } */
