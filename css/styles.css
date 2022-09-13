@@ -233,6 +233,9 @@ a.custom-card:hover {
   border-color: rgb(221, 66, 66);
 }
 
+.checked{
+  color: orange;
+}
 /* #product_images{
   transform: scale(50%,50%);
 } */
