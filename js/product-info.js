@@ -3,7 +3,10 @@ let url = PRODUCT_INFO_URL + prodID + '.json'
 let comments = PRODUCT_INFO_COMMENTS_URL + prodID + '.json'
 let mostrarTodos = ''
 let boton_comments = document.getElementById("showAllOrLess")
+let currentProduct = []
+let comments_list = []
 
+//Muestro el producto que el usuario seleccionó previamente.
 function showProduct(array) {
     let product = array;
     let productos = ""
@@ -35,6 +38,8 @@ function showProduct(array) {
         
             `
     }
+
+    //Al hacer click en una imagen de un producto relacionado, se redirecciona a ese producto.
     for (let i = 0; i < array.relatedProducts.length; i++) {
         let product = array.relatedProducts[i];
 
@@ -44,7 +49,6 @@ function showProduct(array) {
     </div>
     `
 
-
     }
     document.getElementById("product").innerHTML = productos;
     document.getElementById("product_images").innerHTML = imagenes;
@@ -52,22 +56,29 @@ function showProduct(array) {
 
 }
 
+localStorage.setItem('comments', JSON.stringify(comments_list))
+//Muestro los comentarios.
 function showComments(array) {
     let stars = ''
     let comentarios_list = array
     let comentarios = ""
+    //Si hay más de dos comentarios, se muestran los dos primeros y se carga un botón debajo de ellos 
+    //para cargar el resto.
     if (array.length > 1) {
         mostrarTodos = `
     <button class="btn btn-light btn-lg btn-block">Mostrar todos los comentarios</button>
     `
         boton_comments.innerHTML = mostrarTodos;
     }
+
+    //Recorro los comentarios del array para mostrarlos; si hay más de dos, se agregan al HTML pero se le 
+    //ocultan al usuario.
     for (let i = 0; i < array.length; i++) {
-        comentarios=''
-        stars=''
+        comentarios = ''
+        stars = ''
         comentarios_list = array[i];
         comentarios += `
-        <div class='comment ${i > 1 ? 'hide' : ''}'>
+        <div class='comment ${i > 1 ? 'hide' : ''}'> 
         <div class='stars'> </div>
           <p> ${comentarios_list.description}</p>
         <p> ${comentarios_list.user}</p>
@@ -78,36 +89,64 @@ function showComments(array) {
         `
         document.getElementById("contenedor").innerHTML += comentarios;
 
+        //Bucle para mostrar las estrellas por comentario, dependiendo el score del comentario.
         for (let i = 0; i < 5; i++) {
 
             stars += `<span class="fa fa-star ${comentarios_list.score > i ? 'checked' : ''}"></span>`
-            
+
         }
         document.getElementsByClassName("stars")[i].innerHTML = stars;
     }
-
-}
-
-function newOne() {
-    let stars = ''
-    let comentario_nuevo = document.getElementById('comment-box').value
-    let comentario_nuevo_final = ''
-    let estrellas_nuevo = document.getElementById('cantidad').value
-    comentario_nuevo_final += 
-    `<div class='comment'>
-        <div class='stars'> </div>
-        <p> ${comentario_nuevo} </p>
-    <hr>`
     
-    for (let i = 0; i < 5; i++) {
-            stars += `<span class="fa fa-star ${estrellas_nuevo > i ? 'checked' : ''}"></span>`
-    }
-    document.getElementById('contenedor').innerHTML = comentario_nuevo_final
-   
-    showComments(comments_list)
-    document.getElementsByClassName("stars")[0].innerHTML = stars
+
 }
 
+//Función que se invoca cuando el usuario envía un nuevo comentario. Se obtiene el contenido del comentario y 
+//el puntaje. 
+function newOne() {
+    let comment_obj = {
+        product: '',
+        score: '',
+        description: '',
+        user: '',
+        dateTime: '',
+    }
+    let comentario_nuevo = document.getElementById('comment-box').value
+    let estrellas_nuevo = document.getElementById('cantidad').value
+    document.getElementById('contenedor').innerHTML = '<h4> Comentarios</h4>'
+     
+    comment_obj.description = comentario_nuevo
+    comment_obj.score = parseInt(estrellas_nuevo)
+    comment_obj.dateTime = getTime()
+    comment_obj.user = localStorage.getItem('User')
+    comment_obj.product = parseInt(prodID)
+    
+    comments_list.push(comment_obj)
+    localStorage.setItem('comments', JSON.stringify(comments_list))
+    showComments(comments_list)
+    console.log(comments_list)
+
+}
+
+//Obtengo la fecha y hora actual para agregarla al nuevo comentario.
+function getTime() {
+    let date = new Date()
+    let anio = date.getFullYear()
+    let mes = date.getMonth() + 1
+    let dia = date.getDate()
+    let fecha = `${anio}-${mes}-${dia}`
+    let hora = date.getHours()
+    let minutos = date.getMinutes()
+    let segundos = date.getSeconds()
+    let time = `${hora}:${minutos}:${segundos}`
+    console.log(fecha + ' ' + time)
+    return fecha + ' ' + time
+
+}
+
+
+//Función que es llamada cuando se clickea en el botón de los comentarios; cambia la clase de css para 
+//ocultarlos o mostrarlos. 
 function showAllOrLess() {
     if (document.getElementsByClassName('all')[0]) {
         for (let i = 0; i < document.getElementsByClassName('hide').length; i++) {
@@ -120,7 +159,7 @@ function showAllOrLess() {
         boton_comments.classList.remove('all')
         boton_comments.classList.add('less')
 
-    } else if(document.getElementsByClassName('less')[0]) {
+    } else if (document.getElementsByClassName('less')[0]) {
 
 
         for (let i = 0; i < document.getElementsByClassName('hide').length; i++) {
@@ -136,10 +175,11 @@ function showAllOrLess() {
 
 }
 
+//Una vez cargada la página, se obtiene el JSON del producto en cuestión. También se obtienen los comentarios
+//de ese producto. Son luego llamadas las funciones para mostrarlas en pantalla. 
 document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(url).then(function (resultObj) {
         if (resultObj.status === "ok") {
-            console.log(getJSONData(url))
             currentProduct = resultObj.data;
             showProduct(currentProduct);
             getJSONData(comments).then(function (resultObj) {
@@ -150,11 +190,11 @@ document.addEventListener("DOMContentLoaded", function (e) {
             })
         }
     })
-
+    //Mostrar u ocultar comentarios.
     document.getElementById('showAllOrLess').addEventListener('click', function () {
         showAllOrLess()
     })
-
+    //Nuevo comentario.
     document.getElementById('envio').addEventListener('click', function () {
         newOne()
     })

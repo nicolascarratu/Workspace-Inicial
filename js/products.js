@@ -7,6 +7,7 @@ let minCount = undefined;
 let maxCount = undefined;
 let search = document.getElementById('search');
 
+//Función que ordena los productos dependiendo del criterio pasado por parámetro. 
 function sortProducts(criteria, array) {
 
     let result = [];
@@ -37,6 +38,8 @@ function sortProducts(criteria, array) {
 
 }
 
+//Muestro los productos desde un comienzo y si hay algún cambio en los filtros de precios o en la búsqueda por 
+//nombre o descripción, se evalúa en esta función y se muestran los productos que cumplan las condiciones. 
 function showProductsList(array) {
     let htmlContentToAppend = "";
     for (let i = 0; i < array.length; i++) {
@@ -68,6 +71,9 @@ function showProductsList(array) {
         document.getElementById("products").innerHTML = htmlContentToAppend;
     }
 }
+
+//Acá se muestran los productos que se ordenan en la función sortProducts() cuando se hace click en alguno de
+//los botones, ya sea de precio ascendente, descendente o por relevancia.
 function sortAndShowProducts(sortCriteria, productsArray) {
     currentSortCriteria = sortCriteria;
 
@@ -79,9 +85,11 @@ function sortAndShowProducts(sortCriteria, productsArray) {
     showProductsList(currentProductsArray);
 }
 
+//Obtengo la ID de la categoría para mostrar los productos de esa categoría.
 let catID = sessionStorage.getItem('catID')
 let url = PRODUCTS_URL + catID + '.json'
 
+//Relaciono la catID con la posición de la categoría en el JSON para poder usar su descripción y mostrarla. 
 let categorias_ID = {
     '101': '0',
     '102': '1',
@@ -94,6 +102,10 @@ let categorias_ID = {
     '109': '8',
 }
 let categorias = []
+
+//Una vez cargada la página, se obtiene el JSON de la categoría en cuestión. También obtengo el de todas las
+//categorías para acceder así a la descripción de la categoría solicitada, ya que no está en el JSON de una 
+//categoría individual. 
 document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(url).then(function (resultObj) {
         if (resultObj.status === "ok") {
@@ -108,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
             showProductsList(currentProductsArray);
         }
     })
-
+    //Limpiar filtros.
     document.getElementById("clearRange").addEventListener("click", function () {
         document.getElementById("filtroMin").value = "";
         document.getElementById("filtroMax").value = "";
@@ -118,23 +130,23 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
         showProductsList(currentProductsArray);
     });
-
+    //Relevancia.
     document.getElementById("sortByProdCount").addEventListener("click", function () {
 
         sortAndShowProducts(ORDER_BY_SOLD_COUNT);
     });
-
+    //Precio descendente.
     document.getElementById('maxPrice').addEventListener('click', function () {
 
         sortAndShowProducts(ORDER_BY_PRICE_UP);
 
     });
-
+    //Precio ascendente.
     document.getElementById('minPrice').addEventListener('click', function () {
 
         sortAndShowProducts(ORDER_BY_PRICE_DOWN);
     });
-
+    //Filtro de precio.
     document.getElementById("filtroRange").addEventListener("click", function () {
 
         minCount = document.getElementById("filtroMin").value;
@@ -155,7 +167,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
         }
         showProductsList(currentProductsArray);
     });
-
+    
+    //Filtro por búsqueda de texto. 
     search.addEventListener('input', function () {
         showProductsList(currentProductsArray)
     })
