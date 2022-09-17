@@ -34,9 +34,14 @@ function showProduct(array) {
     for (let i = 0; i < array.images.length; i++) {
         let product = array;
         imagenes += `
-                <img src="${product.images[i]}" alt="${product.description}" class="img-thumbnail">
         
-            `
+        <div class="col-md-3">
+          <div class="thumbnail">
+                <img src="${product.images[i]}" alt="${product.description}" style="width:100%">
+        </div>
+       </div>
+      
+        `
     }
 
     //Al hacer click en una imagen de un producto relacionado, se redirecciona a ese producto.
@@ -44,21 +49,30 @@ function showProduct(array) {
         let product = array.relatedProducts[i];
 
         otros += `
-    <div onclick="setProdID(${product.id})">
-     <img src="${product.image}" alt="${product.name}" class="img-thumbnail">
+    <div onclick="setProdID(${product.id})"
+    
+    <div class="col-md-3">
+      <div class="thumbnail">
+       <img src="${product.image}" alt="${product.name}" style="width:100%">
+       <div class="caption">
+          <p>${product.name}</p>
+        </div>
+       </div>
+
     </div>
     `
 
     }
     document.getElementById("product").innerHTML = productos;
-    document.getElementById("product_images").innerHTML = imagenes;
-    document.getElementById("otros").innerHTML = otros;
+    document.getElementById("product_images").innerHTML += imagenes;
+    document.getElementById("otros").innerHTML += otros;
 
 }
 
-localStorage.setItem('comments', JSON.stringify(comments_list))
-//Muestro los comentarios.
+
+//Muestro los comentarios y los guardo en el almacenamiento local. 
 function showComments(array) {
+    localStorage.setItem(`comments ${prodID}`, JSON.stringify(array))
     let stars = ''
     let comentarios_list = array
     let comentarios = ""
@@ -97,12 +111,14 @@ function showComments(array) {
         }
         document.getElementsByClassName("stars")[i].innerHTML = stars;
     }
-    
+
 
 }
 
 //Función que se invoca cuando el usuario envía un nuevo comentario. Se obtiene el contenido del comentario y 
-//el puntaje. 
+//el puntaje. En comment_obj se guardan esos valores, sumados a la fecha y hora, id del producto y nombre de 
+//usuario. Agrego el nuevo comentario con sus valores asociados a comments_list y paso este por parámetro de 
+//la función que muestra los comentarios. 
 function newOne() {
     let comment_obj = {
         product: '',
@@ -114,15 +130,14 @@ function newOne() {
     let comentario_nuevo = document.getElementById('comment-box').value
     let estrellas_nuevo = document.getElementById('cantidad').value
     document.getElementById('contenedor').innerHTML = '<h4> Comentarios</h4>'
-     
+
     comment_obj.description = comentario_nuevo
     comment_obj.score = parseInt(estrellas_nuevo)
     comment_obj.dateTime = getTime()
     comment_obj.user = localStorage.getItem('User')
     comment_obj.product = parseInt(prodID)
-    
+
     comments_list.push(comment_obj)
-    localStorage.setItem('comments', JSON.stringify(comments_list))
     showComments(comments_list)
     console.log(comments_list)
 
@@ -132,14 +147,13 @@ function newOne() {
 function getTime() {
     let date = new Date()
     let anio = date.getFullYear()
-    let mes = date.getMonth() + 1
-    let dia = date.getDate()
+    let mes = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+    let dia = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()
     let fecha = `${anio}-${mes}-${dia}`
-    let hora = date.getHours()
-    let minutos = date.getMinutes()
-    let segundos = date.getSeconds()
+    let hora = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+    let minutos = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+    let segundos = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
     let time = `${hora}:${minutos}:${segundos}`
-    console.log(fecha + ' ' + time)
     return fecha + ' ' + time
 
 }
@@ -184,7 +198,12 @@ document.addEventListener("DOMContentLoaded", function (e) {
             showProduct(currentProduct);
             getJSONData(comments).then(function (resultObj) {
                 if (resultObj.status === "ok") {
-                    comments_list = resultObj.data;
+                    if (JSON.parse(localStorage.getItem(`comments ${prodID}`)) != null) {
+                        comments_list = JSON.parse(localStorage.getItem(`comments ${prodID}`))
+                    } else {
+                        comments_list = resultObj.data;
+
+                    }
                     showComments(comments_list)
                 }
             })
