@@ -134,7 +134,12 @@ function newOne() {
     comment_obj.description = comentario_nuevo
     comment_obj.score = parseInt(estrellas_nuevo)
     comment_obj.dateTime = getTime()
-    comment_obj.user = localStorage.getItem('User')
+    if (localStorage.getItem('User') != null){
+        comment_obj.user = localStorage.getItem('User') 
+    } else{
+        comment_obj.user = 'Anónimo'
+    }
+    
     comment_obj.product = parseInt(prodID)
 
     comments_list.push(comment_obj)
@@ -196,17 +201,20 @@ document.addEventListener("DOMContentLoaded", function (e) {
         if (resultObj.status === "ok") {
             currentProduct = resultObj.data;
             showProduct(currentProduct);
-            getJSONData(comments).then(function (resultObj) {
-                if (resultObj.status === "ok") {
-                    if (JSON.parse(localStorage.getItem(`comments ${prodID}`)) != null) {
-                        comments_list = JSON.parse(localStorage.getItem(`comments ${prodID}`))
-                    } else {
-                        comments_list = resultObj.data;
 
-                    }
-                    showComments(comments_list)
-                }
-            })
+        }
+
+    })
+
+    getJSONData(comments).then(function (resultObj) {
+        if (resultObj.status === "ok") {
+            if (JSON.parse(localStorage.getItem(`comments ${prodID}`)) != null) {
+                comments_list = JSON.parse(localStorage.getItem(`comments ${prodID}`))
+            } else {
+                comments_list = resultObj.data;
+
+            }
+            showComments(comments_list)
         }
     })
     //Mostrar u ocultar comentarios.
