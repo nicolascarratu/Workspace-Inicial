@@ -22,7 +22,7 @@ function mostrarCarrito(array) {
                     <p> ${cart.currency} ${cart.unitCost}</p>
                 </div>
                 <div class="col-2">
-                    <input type="number" id="cant_unit" value='1'>
+                    <input type="number" class='w-50' id="cant_unit" value='1' min='1'>
                 </div>
                   <div class="col-4">
                     <p id='subtotal'>  </p>
@@ -39,7 +39,7 @@ function subtotal(array) {
     let cart = array.articles[0]
     let result = 0
     result = cart.unitCost * document.getElementById('cant_unit').value
-    document.getElementById('subtotal').innerHTML = result
+    document.getElementById('subtotal').innerHTML =  cart.currency + ' ' + result
 }
 
 

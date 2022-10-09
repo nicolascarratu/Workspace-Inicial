@@ -12,7 +12,7 @@ function cargaUser() {
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
         <li><a class="dropdown-item" href="cart.html">Mi carrito</a></li>
         <li><a class="dropdown-item" href="my-profile.html">Mi perfil</a></li>
-        <li><a class="dropdown-item"href="index.html" id='sesion'>Cerrar sesión</a></li>
+        <li><a class="dropdown-item text-start"href="index.html" id='sesion'>Cerrar sesión</a></li>
       </ul>
     </div>
   </li>`

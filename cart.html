@@ -38,28 +38,57 @@
       <h4 class="text-center m-3"> Carrito de compras</h4>
       <h5>Artículos a comprar</h5>
       <div class='row'>
-        <div class='list-group'>
-            <div class="list-group-item">
-                <div class="row">
-                    <div class="col"></div>
-                    <div class='col-2'>
-                        <p>Nombre</p>
-                    </div>
-                    <div class='col-2'>
-                        <p>Costo</p>
-                    </div>
-                    <div class='col-2'>
-                        <p>Cantidad</p>
-                    </div>
-                    <div class='col-4'>
-                        <p>Subtotal</p>
-                    </div>
-    
-                </div>
+        <div class='list-group mt-3'>
+          <div class="list-group-item">
+            <div class="row">
+              <div class="col"></div>
+              <div class='col-2'>
+                <p class="fw-bold">Nombre</p>
+              </div>
+              <div class='col-2'>
+                <p class="fw-bold">Costo</p>
+              </div>
+              <div class='col-2'>
+                <p class="fw-bold">Cantidad</p>
+              </div>
+              <div class='col-4'>
+                <p class="fw-bold">Subtotal</p>
+              </div>
+
             </div>
+          </div>
         </div>
+      </div>
     </div>
+    <div class="container">
+      <fieldset>
+        <h5 class='mt-3'> Tipo de envío </h5>
+        <div>
+          <input type="radio" id="premium" name="envio" checked>
+          <label for='premium'> Premium 2 a 5 días (15%)</label>
+        </div>
+        <div>
+          <input type="radio" id='express' class="mt-2" name="envio">
+          <label for='express'>Express 5 a 8 días (7%) </label>
+        </div>
+        <div>
+          <input type="radio" id="standard" class="mt-2" name="envio">
+          <label for='express'> Standard 12 a 15 días (5%) </label>
+        </div>
+      </fieldset>
     </div>
+    <div class="container">
+      <h5 class="mt-3">Dirección de envío</h5>
+      <div class="row">
+        <label for="calle"> Calle </label>
+        <input class='col-4' id="calle">
+        <label for="numero"> Numero</label>
+        <input class='col-2' id="numero">
+        <label for="esquina"> Esquina</label>
+        <input class='col-4' id="esquina">
+      </div>
+
+
     </div>
   </main>
   <footer class="text-muted">
