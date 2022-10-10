@@ -5,6 +5,7 @@ let mostrarTodos = ''
 let boton_comments = document.getElementById("showAllOrLess")
 let currentProduct = []
 let comments_list = []
+let cartArticlesList = []
 
 //Muestro el producto que el usuario seleccionó previamente.
 function showProduct(array) {
@@ -15,18 +16,21 @@ function showProduct(array) {
 
     productos += `
             <div>
-            <div> <h1> ${product.name}<h1></div>
-            <hr>
-            <div>
-                <h4> Precio </h4>
+                <div>
+                    <h3 class='mt-5'> ${product.name}<h3>
+                            <button onclick='sendToCart(currentProduct)'type="button" class="btn btn-outline-success">Comprar</button>
+                </div>
+                <hr>
+                <div>
+                    <h5> Precio </h5>
                     <p>${product.currency} ${product.cost}</p>
-                <h4> Descripción </h4>
-                   <p class="mb-1">${product.description}</p>  
-                <h4> Categoria </h4>   
+                    <h5> Descripción </h5>
+                    <p class="mb-1">${product.description}</p>
+                    <h5> Categoria </h5>
                     <p> ${product.category}</p>
-                <h4> Cantidad de artículos vendidos </h4>
-                <p>${product.soldCount} artículos</p>
-                <h4>Imagénes del producto </h4>
+                    <h5> Cantidad de artículos vendidos </h5>
+                    <p>${product.soldCount} artículos</p>
+                    <h5>Imagénes del producto </h5>
                 </div>
             </div>
                 `
@@ -192,6 +196,19 @@ function showAllOrLess() {
         boton_comments.classList.add('all')
     }
 
+}
+
+function sendToCart(array){
+    let product = array
+    let cartProduct = {}
+    cartProduct.names = product.name
+    cartProduct.currency = product.currency
+    cartProduct.id = product.id
+    cartProduct.unitCost = product.cost
+    cartProduct.image = product.images[0]
+    cartArticlesList.push(cartProduct)
+    localStorage.setItem("cart", JSON.stringify(cartArticlesList));
+    window.location = "cart.html"
 }
 
 //Una vez cargada la página, se obtiene el JSON del producto en cuestión. También se obtienen los comentarios

@@ -1,12 +1,15 @@
 let cart_url = CART_INFO_URL + '25801' + EXT_TYPE
 let cant_unit = document.getElementById('cant_unit')
-let cartArray = []
+let cartArticles = {}
+let cartArticlesList = []
 
-function mostrarCarrito(array) {
-    let cart = array.articles[0]
+
+function mostrarCarrito(cartArticles) {
+    let cart = cartArticles
     let HTMLtext = ''
+    for (let i = 0; i < cart.length; i++) {
 
-    HTMLtext += `
+        HTMLtext += `
 
 <div class="row m-0">
     <div class="list-group">
@@ -16,7 +19,7 @@ function mostrarCarrito(array) {
                     <img src='${cart.image}' alt='${cart.name}' class='w-50 rounded-3'>
                 </div>
                 <div class="col-2 ">
-                    <p> ${cart.name}</p>
+                    <p> ${cart.names}</p>
                 </div>
                 <div class="col-2">
                     <p> ${cart.currency} ${cart.unitCost}</p>
@@ -32,27 +35,40 @@ function mostrarCarrito(array) {
     </div>
 </div>`
 
+    }
+
     document.getElementById('carrito_id').innerHTML += HTMLtext
 
 }
-function subtotal(array) {
-    let cart = array.articles[0]
+/* function subtotal(array) {
+    let cart = array
     let result = 0
     result = cart.unitCost * document.getElementById('cant_unit').value
     document.getElementById('subtotal').innerHTML =  cart.currency + ' ' + result
-}
+} */
 
+function addingObject(object) {
+    let cartObject = object
+    cartArticles.names = cartObject.name
+    cartArticles.currency = cartObject.currency
+    cartArticles.image = cartObject.image
+    cartArticles.unitCost = cartObject.unitCost
+    cartArticles.id = cartObject.id
+    cartArticlesList.push(cartArticles)
+
+}
+cartArticlesList = JSON.parse(localStorage.getItem('cart'))
 
 document.addEventListener('DOMContentLoaded', function () {
     getJSONData(cart_url).then(function (resultObj) {
         if (resultObj.status === "ok") {
-            cartArray = resultObj.data
-            console.log(cartArray)
-            mostrarCarrito(cartArray)
-            subtotal(cartArray)
-            document.getElementById('cant_unit').addEventListener('input', function () {
-                subtotal(cartArray)
-            })
+            cartArray = resultObj.data.articles[0]
+            addingObject(cartArray)
+            mostrarCarrito(cartArticles)
+            //subtotal(cartArticles)
+            /* document.getElementById('cant_unit').addEventListener('input', function () {
+                subtotal(cartArticles)
+            }) */
 
         }
     }
@@ -60,4 +76,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
 }
 )
-
+console.log(cartArticlesList)
