@@ -8,14 +8,14 @@ function mostrarCarrito(array) {
 
     HTMLtext += `
 
-<div class="row">
+<div class="row m-0">
     <div class="list-group">
         <div class="list-group-item">
-            <div class="row">
+            <div class="row d-flex align-items-center">
                 <div class="col">
-                    <img src='${cart.image}' alt='${cart.name}' class='img-thumbnail'>
+                    <img src='${cart.image}' alt='${cart.name}' class='w-50 rounded-3'>
                 </div>
-                <div class="col-2">
+                <div class="col-2 ">
                     <p> ${cart.name}</p>
                 </div>
                 <div class="col-2">
