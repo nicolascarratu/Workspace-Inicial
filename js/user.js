@@ -1,5 +1,6 @@
 //Obtengo el nombre del usuario para mostrarlo en cada página del sitio.
 var user = localStorage.getItem('User')
+const CART_URL = CART_INFO_URL + '25801' + EXT_TYPE
 
 function cargaUser() {
     usuario = ''
@@ -16,7 +17,7 @@ function cargaUser() {
       </ul>
     </div>
   </li>`
-        
+
         document.getElementsByClassName('navbar-nav')[0].innerHTML += usuario
         document.getElementsByClassName('user')[0].innerHTML = user
         document.getElementById('sesion').addEventListener('click', function () {
@@ -29,9 +30,14 @@ function cargaUser() {
 }
 document.addEventListener('DOMContentLoaded', function () {
     cargaUser()
+    getJSONData(CART_URL).then(function (resultObj) {
+        if (resultObj.status === "ok") {
+            cartArray = resultObj.data.articles[0]
+            localStorage.setItem('cart', JSON.stringify(cartArray))
+        }
+
+    })
 })
-
-
 
 //La declaro en este js para asi se puede usar tambien en la pagina principal, y no solo en la de categorias.
 function setCatID(id) {

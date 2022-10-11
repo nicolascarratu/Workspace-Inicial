@@ -1,8 +1,7 @@
-let cart_url = CART_INFO_URL + '25801' + EXT_TYPE
 let cant_unit = document.getElementById('cant_unit')
 let cartArticles = {}
 let cartArticlesList = []
-
+let cartArticlesListFinal = []
 
 function mostrarCarrito(cartArticlesList) {
     let cart = cartArticlesList
@@ -48,6 +47,8 @@ function mostrarCarrito(cartArticlesList) {
     document.getElementById('subtotal').innerHTML =  cart.currency + ' ' + result
 } */
 
+cartArticlesList = JSON.parse(localStorage.getItem('cart'))
+
 function addingObject(object) {
     let cartObject = object
     cartArticles.names = cartObject.name
@@ -55,27 +56,22 @@ function addingObject(object) {
     cartArticles.image = cartObject.image
     cartArticles.unitCost = cartObject.unitCost
     cartArticles.id = cartObject.id
-    cartArticlesList.push(cartArticles)
-    
+    cartArticlesListFinal.push(cartArticles)
 
 }
-cartArticlesList = JSON.parse(localStorage.getItem('cart'))
 
 document.addEventListener('DOMContentLoaded', function () {
-    getJSONData(cart_url).then(function (resultObj) {
-        if (resultObj.status === "ok") {
-            cartArray = resultObj.data.articles[0]
-            addingObject(cartArray)
-            mostrarCarrito(cartArticlesList)
-            //subtotal(cartArticles)
-            /* document.getElementById('cant_unit').addEventListener('input', function () {
-                subtotal(cartArticles)
-            }) */
-
-        }
-    }
-    )
+    //localStorage.setItem('cart', JSON.stringify(cartArray))
+    addingObject(cartArticlesList)
+    mostrarCarrito(cartArticlesListFinal)
+    //subtotal(cartArticles)
+    /* document.getElementById('cant_unit').addEventListener('input', function () {
+        subtotal(cartArticles)
+    }) */
 
 }
+    
 )
+
+
 console.log(cartArticlesList)

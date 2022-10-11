@@ -19,7 +19,7 @@ function showProduct(array) {
             <div>
                 <div>
                     <h3 class='mt-5'> ${product.name}<h3>
-                            <button onclick='sendToCart(currentProduct)'type="button" class="btn btn-outline-success">Comprar</button>
+                            <button onclick='sendToCart(currentProduct)' type="button" class="btn btn-outline-success">Comprar</button>
                 </div>
                 <hr>
                 <div>
@@ -202,8 +202,10 @@ function showAllOrLess() {
 function sendToCart(array) {
     let product = array
     let cartProduct = {}
-    if (!Object.values(product).includes(product.name)) {
-        cartProduct.names = product.name
+    cartArticlesListJSON = JSON.parse(localStorage.getItem('cart'))
+
+    if (!Object.values(product).includes(cartArticlesListJSON.name)) {
+        cartProduct.name = product.name
         cartProduct.currency = product.currency
         cartProduct.id = product.id
         cartProduct.unitCost = product.cost
@@ -211,15 +213,17 @@ function sendToCart(array) {
         cartArticlesList.push(cartProduct)
     }
 
-    cartArticlesListJSON = JSON.parse(localStorage.getItem('cart'))
-    if (cartArticlesListJSON != null) {
-        for (let i = 0; i < cartArticlesListJSON.length; i++) {
-            cartArticlesList.push(cartArticlesListJSON[i])
-        }
-    }
+    console.log(cartArticlesListJSON)
+
+    //for (let i = 0; i < cartArticlesListJSON.length; i++) {
+    cartArticlesList.push(cartArticlesListJSON)
+    console.log(cartArticlesListJSON)
+    //}
+
 
     localStorage.setItem("cart", JSON.stringify(cartArticlesList));
-    window.location = "cart.html"
+    console.log(cartArticlesList)
+    //window.location = "cart.html"
 }
 
 //Una vez cargada la página, se obtiene el JSON del producto en cuestión. También se obtienen los comentarios
