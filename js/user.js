@@ -43,3 +43,4 @@ function setProdID(id) {
     sessionStorage.setItem("prodID", id);
     window.location = "product-info.html"
 }
+

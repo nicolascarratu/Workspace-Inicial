@@ -4,10 +4,11 @@ let cartArticles = {}
 let cartArticlesList = []
 
 
-function mostrarCarrito(cartArticles) {
-    let cart = cartArticles
+function mostrarCarrito(cartArticlesList) {
+    let cart = cartArticlesList
     let HTMLtext = ''
     for (let i = 0; i < cart.length; i++) {
+        let cart = cartArticlesList[i]
 
         HTMLtext += `
 
@@ -19,7 +20,7 @@ function mostrarCarrito(cartArticles) {
                     <img src='${cart.image}' alt='${cart.name}' class='w-50 rounded-3'>
                 </div>
                 <div class="col-2 ">
-                    <p> ${cart.names}</p>
+                    <a onclick="setProdID(${cart.id})"> ${cart.names}</a>
                 </div>
                 <div class="col-2">
                     <p> ${cart.currency} ${cart.unitCost}</p>
@@ -55,6 +56,7 @@ function addingObject(object) {
     cartArticles.unitCost = cartObject.unitCost
     cartArticles.id = cartObject.id
     cartArticlesList.push(cartArticles)
+    
 
 }
 cartArticlesList = JSON.parse(localStorage.getItem('cart'))
@@ -64,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (resultObj.status === "ok") {
             cartArray = resultObj.data.articles[0]
             addingObject(cartArray)
-            mostrarCarrito(cartArticles)
+            mostrarCarrito(cartArticlesList)
             //subtotal(cartArticles)
             /* document.getElementById('cant_unit').addEventListener('input', function () {
                 subtotal(cartArticles)

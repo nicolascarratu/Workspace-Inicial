@@ -6,6 +6,7 @@ let boton_comments = document.getElementById("showAllOrLess")
 let currentProduct = []
 let comments_list = []
 let cartArticlesList = []
+let cartArticlesListJSON = []
 
 //Muestro el producto que el usuario seleccionó previamente.
 function showProduct(array) {
@@ -138,12 +139,12 @@ function newOne() {
     comment_obj.description = comentario_nuevo
     comment_obj.score = parseInt(estrellas_nuevo)
     comment_obj.dateTime = getTime()
-    if (localStorage.getItem('User') != null){
-        comment_obj.user = localStorage.getItem('User') 
-    } else{
+    if (localStorage.getItem('User') != null) {
+        comment_obj.user = localStorage.getItem('User')
+    } else {
         comment_obj.user = 'Anónimo'
     }
-    
+
     comment_obj.product = parseInt(prodID)
 
     comments_list.push(comment_obj)
@@ -198,15 +199,25 @@ function showAllOrLess() {
 
 }
 
-function sendToCart(array){
+function sendToCart(array) {
     let product = array
     let cartProduct = {}
-    cartProduct.names = product.name
-    cartProduct.currency = product.currency
-    cartProduct.id = product.id
-    cartProduct.unitCost = product.cost
-    cartProduct.image = product.images[0]
-    cartArticlesList.push(cartProduct)
+    if (!Object.values(product).includes(product.name)) {
+        cartProduct.names = product.name
+        cartProduct.currency = product.currency
+        cartProduct.id = product.id
+        cartProduct.unitCost = product.cost
+        cartProduct.image = product.images[0]
+        cartArticlesList.push(cartProduct)
+    }
+
+    cartArticlesListJSON = JSON.parse(localStorage.getItem('cart'))
+    if (cartArticlesListJSON != null) {
+        for (let i = 0; i < cartArticlesListJSON.length; i++) {
+            cartArticlesList.push(cartArticlesListJSON[i])
+        }
+    }
+
     localStorage.setItem("cart", JSON.stringify(cartArticlesList));
     window.location = "cart.html"
 }
