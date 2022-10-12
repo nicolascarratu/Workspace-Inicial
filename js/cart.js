@@ -1,14 +1,16 @@
 let cant_unit = document.getElementById('cant_unit')
+let cartArray = []
 let cartArticles = {}
 let cartArticlesList = []
 let cartArticlesListFinal = []
 
-function mostrarCarrito(cartArticlesList) {
-    let cart = cartArticlesList
-    let HTMLtext = ''
-    for (let i = 0; i < cart.length; i++) {
-        let cart = cartArticlesList[i]
 
+function mostrarCarrito(object) {
+    let HTMLtext = ''
+    console.log(object)
+    for (let i = 0; i < object.length; i++) {
+        let cart = object[i]
+        console.log(i)
         HTMLtext += `
 
 <div class="row m-0">
@@ -19,7 +21,7 @@ function mostrarCarrito(cartArticlesList) {
                     <img src='${cart.image}' alt='${cart.name}' class='w-50 rounded-3'>
                 </div>
                 <div class="col-2 ">
-                    <a onclick="setProdID(${cart.id})"> ${cart.names}</a>
+                    <a onclick="setProdID(${cart.id})"> ${cart.name}</a>
                 </div>
                 <div class="col-2">
                     <p> ${cart.currency} ${cart.unitCost}</p>
@@ -49,6 +51,8 @@ function mostrarCarrito(cartArticlesList) {
 
 cartArticlesList = JSON.parse(localStorage.getItem('cart'))
 
+//cartArticlesList.splice(0, 0, cartArray)
+
 function addingObject(object) {
     let cartObject = object
     cartArticles.names = cartObject.name
@@ -61,16 +65,26 @@ function addingObject(object) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    getJSONData(CART_URL).then(function (resultObj) {
+        if (resultObj.status === "ok") {
+            cartArray = resultObj.data.articles[0]
+            cartArticlesList.push(cartArray)
+            addingObject(cartArticlesList)
+            mostrarCarrito(cartArticlesList)
+            console.log(cartArray)
+
+        }
+
+    })
     //localStorage.setItem('cart', JSON.stringify(cartArray))
-    addingObject(cartArticlesList)
-    mostrarCarrito(cartArticlesListFinal)
+
     //subtotal(cartArticles)
     /* document.getElementById('cant_unit').addEventListener('input', function () {
         subtotal(cartArticles)
     }) */
 
 }
-    
+
 )
 
 

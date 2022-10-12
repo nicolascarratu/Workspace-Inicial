@@ -202,62 +202,78 @@ function showAllOrLess() {
 function sendToCart(array) {
     let product = array
     let cartProduct = {}
+    let cartArticlesListJSONTest = JSON.parse(localStorage.getItem('cart'))
+    if (cartArticlesListJSONTest == null) {
+        localStorage.setItem('cart', JSON.stringify(cartArray))
+    }
     cartArticlesListJSON = JSON.parse(localStorage.getItem('cart'))
 
-    if (!Object.values(product).includes(cartArticlesListJSON.name)) {
+    console.log(cartArticlesListJSON)
+    if (!Object.values(cartArticlesListJSON).includes(product.name)) {
         cartProduct.name = product.name
         cartProduct.currency = product.currency
         cartProduct.id = product.id
         cartProduct.unitCost = product.cost
         cartProduct.image = product.images[0]
         cartArticlesList.push(cartProduct)
+
+
+    }
+    for (let i = 0; i < cartArticlesListJSON.length; i++) {
+        if (!Object.values(cartArticlesListJSON[i]).includes(product.name)) {
+            cartArticlesList.push(cartArticlesListJSON[i])
+        }
+
     }
 
-    console.log(cartArticlesListJSON)
 
-    //for (let i = 0; i < cartArticlesListJSON.length; i++) {
-    cartArticlesList.push(cartArticlesListJSON)
-    console.log(cartArticlesListJSON)
-    //}
+        localStorage.setItem("cart", JSON.stringify(cartArticlesList));
+        
+        window.location = "cart.html"
+    }
 
-
-    localStorage.setItem("cart", JSON.stringify(cartArticlesList));
-    console.log(cartArticlesList)
-    //window.location = "cart.html"
-}
-
-//Una vez cargada la página, se obtiene el JSON del producto en cuestión. También se obtienen los comentarios
-//de ese producto. Son luego llamadas las funciones para mostrarlas en pantalla. 
-document.addEventListener("DOMContentLoaded", function (e) {
-    getJSONData(url).then(function (resultObj) {
-        if (resultObj.status === "ok") {
-            currentProduct = resultObj.data;
-            showProduct(currentProduct);
-
-        }
-
-    })
-
-    getJSONData(comments).then(function (resultObj) {
-        if (resultObj.status === "ok") {
-            if (JSON.parse(localStorage.getItem(`comments ${prodID}`)) != null) {
-                comments_list = JSON.parse(localStorage.getItem(`comments ${prodID}`))
-            } else {
-                comments_list = resultObj.data;
+    //Una vez cargada la página, se obtiene el JSON del producto en cuestión. También se obtienen los comentarios
+    //de ese producto. Son luego llamadas las funciones para mostrarlas en pantalla. 
+    document.addEventListener("DOMContentLoaded", function (e) {
+        getJSONData(url).then(function (resultObj) {
+            if (resultObj.status === "ok") {
+                currentProduct = resultObj.data;
+                showProduct(currentProduct);
 
             }
-            showComments(comments_list)
-        }
+
+        })
+
+        getJSONData(comments).then(function (resultObj) {
+            if (resultObj.status === "ok") {
+                if (JSON.parse(localStorage.getItem(`comments ${prodID}`)) != null) {
+                    comments_list = JSON.parse(localStorage.getItem(`comments ${prodID}`))
+                } else {
+                    comments_list = resultObj.data;
+
+                }
+                showComments(comments_list)
+            }
+        })
+
+        getJSONData(CART_URL).then(function (resultObj) {
+            if (resultObj.status === "ok") {
+                cartArray = resultObj.data.articles[0]
+                cartArticlesList.push(cartArray)
+                console.log(cartArticlesList)
+
+            }
+        })
+        //Mostrar u ocultar comentarios.
+        document.getElementById('showAllOrLess').addEventListener('click', function () {
+            showAllOrLess()
+        })
+        //Nuevo comentario.
+        document.getElementById('envio').addEventListener('click', function () {
+            newOne()
+        })
     })
-    //Mostrar u ocultar comentarios.
-    document.getElementById('showAllOrLess').addEventListener('click', function () {
-        showAllOrLess()
-    })
-    //Nuevo comentario.
-    document.getElementById('envio').addEventListener('click', function () {
-        newOne()
-    })
-})
+
 
 
 

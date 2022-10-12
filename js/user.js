@@ -30,13 +30,13 @@ function cargaUser() {
 }
 document.addEventListener('DOMContentLoaded', function () {
     cargaUser()
-    getJSONData(CART_URL).then(function (resultObj) {
+    /* getJSONData(CART_URL).then(function (resultObj) {
         if (resultObj.status === "ok") {
             cartArray = resultObj.data.articles[0]
-            localStorage.setItem('cart', JSON.stringify(cartArray))
-        }
+            
 
-    })
+        }
+    }) */
 })
 
 //La declaro en este js para asi se puede usar tambien en la pagina principal, y no solo en la de categorias.
