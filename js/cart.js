@@ -10,7 +10,6 @@ function mostrarCarrito(object) {
     console.log(object)
     for (let i = 0; i < object.length; i++) {
         let cart = object[i]
-        console.log(i)
         HTMLtext += `
 
 <div class="row m-0">
@@ -68,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
     getJSONData(CART_URL).then(function (resultObj) {
         if (resultObj.status === "ok") {
             cartArray = resultObj.data.articles[0]
-            cartArticlesList.push(cartArray)
+            
             addingObject(cartArticlesList)
             mostrarCarrito(cartArticlesList)
             console.log(cartArray)

@@ -203,6 +203,7 @@ function sendToCart(array) {
     let product = array
     let cartProduct = {}
     let cartArticlesListJSONTest = JSON.parse(localStorage.getItem('cart'))
+    console.log(cartArticlesListJSONTest)
     if (cartArticlesListJSONTest == null) {
         localStorage.setItem('cart', JSON.stringify(cartArray))
     }
@@ -220,59 +221,62 @@ function sendToCart(array) {
 
     }
     for (let i = 0; i < cartArticlesListJSON.length; i++) {
-        if (!Object.values(cartArticlesListJSON[i]).includes(product.name)) {
+        if (Object.values(cartArticlesList).indexOf(cartArticlesListJSON[i]) ==  -1) {
             cartArticlesList.push(cartArticlesListJSON[i])
+
+            console.log(i)
         }
 
     }
-
-
-        localStorage.setItem("cart", JSON.stringify(cartArticlesList));
+    localStorage.setItem("cart", JSON.stringify(cartArticlesList))
+    console.log(cartArticlesList)
         
-        window.location = "cart.html"
-    }
 
-    //Una vez cargada la página, se obtiene el JSON del producto en cuestión. También se obtienen los comentarios
-    //de ese producto. Son luego llamadas las funciones para mostrarlas en pantalla. 
-    document.addEventListener("DOMContentLoaded", function (e) {
-        getJSONData(url).then(function (resultObj) {
-            if (resultObj.status === "ok") {
-                currentProduct = resultObj.data;
-                showProduct(currentProduct);
+    window.location = "cart.html"
+}
 
-            }
+//Una vez cargada la página, se obtiene el JSON del producto en cuestión. También se obtienen los comentarios
+//de ese producto. Son luego llamadas las funciones para mostrarlas en pantalla. 
+document.addEventListener("DOMContentLoaded", function (e) {
+    getJSONData(url).then(function (resultObj) {
+        if (resultObj.status === "ok") {
+            currentProduct = resultObj.data;
+            showProduct(currentProduct);
 
-        })
+        }
 
-        getJSONData(comments).then(function (resultObj) {
-            if (resultObj.status === "ok") {
-                if (JSON.parse(localStorage.getItem(`comments ${prodID}`)) != null) {
-                    comments_list = JSON.parse(localStorage.getItem(`comments ${prodID}`))
-                } else {
-                    comments_list = resultObj.data;
-
-                }
-                showComments(comments_list)
-            }
-        })
-
-        getJSONData(CART_URL).then(function (resultObj) {
-            if (resultObj.status === "ok") {
-                cartArray = resultObj.data.articles[0]
-                cartArticlesList.push(cartArray)
-                console.log(cartArticlesList)
-
-            }
-        })
-        //Mostrar u ocultar comentarios.
-        document.getElementById('showAllOrLess').addEventListener('click', function () {
-            showAllOrLess()
-        })
-        //Nuevo comentario.
-        document.getElementById('envio').addEventListener('click', function () {
-            newOne()
-        })
     })
+
+    getJSONData(comments).then(function (resultObj) {
+        if (resultObj.status === "ok") {
+            if (JSON.parse(localStorage.getItem(`comments ${prodID}`)) != null) {
+                comments_list = JSON.parse(localStorage.getItem(`comments ${prodID}`))
+            } else {
+                comments_list = resultObj.data;
+
+            }
+            showComments(comments_list)
+        }
+    })
+
+    getJSONData(CART_URL).then(function (resultObj) {
+        if (resultObj.status === "ok") {
+            cartArray = resultObj.data.articles[0]
+            console.log(cartArticlesList)
+            cartArticlesList.push(cartArray)
+    
+
+        }
+    })
+    //Mostrar u ocultar comentarios.
+    document.getElementById('showAllOrLess').addEventListener('click', function () {
+        showAllOrLess()
+    })
+    //Nuevo comentario.
+    document.getElementById('envio').addEventListener('click', function () {
+        newOne()
+    })
+})
 
 
 
