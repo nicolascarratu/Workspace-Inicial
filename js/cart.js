@@ -1,8 +1,6 @@
 let cant_unit = document.getElementById('cant_unit')
-let cartArray = []
 let cartArticles = {}
 let cartArticlesList = []
-let cartArticlesListFinal = []
 
 
 function mostrarCarrito(object) {
@@ -26,10 +24,10 @@ function mostrarCarrito(object) {
                     <p> ${cart.currency} ${cart.unitCost}</p>
                 </div>
                 <div class="col-2">
-                    <input type="number" class='w-50' id="cant_unit" value='1' min='1'>
+                    <input type="number" class='w-50' id="cant_unit${i}" oninput='result(cartArticlesList)' value='1' min='1'>
                 </div>
                   <div class="col-4">
-                    <p id='subtotal'>  </p>
+                    <p id='subtotal${i}'>  </p>
                 </div>
             </div>
         </div>
@@ -41,50 +39,36 @@ function mostrarCarrito(object) {
     document.getElementById('carrito_id').innerHTML += HTMLtext
 
 }
-/* function subtotal(array) {
+function result(array) {
     let cart = array
-    let result = 0
-    result = cart.unitCost * document.getElementById('cant_unit').value
-    document.getElementById('subtotal').innerHTML =  cart.currency + ' ' + result
-} */
-
-cartArticlesList = JSON.parse(localStorage.getItem('cart'))
-
-//cartArticlesList.splice(0, 0, cartArray)
-
-function addingObject(object) {
-    let cartObject = object
-    cartArticles.names = cartObject.name
-    cartArticles.currency = cartObject.currency
-    cartArticles.image = cartObject.image
-    cartArticles.unitCost = cartObject.unitCost
-    cartArticles.id = cartObject.id
-    cartArticlesListFinal.push(cartArticles)
+    let resultParcial = 0
+    let resultTotal = 0
+    for (let i = 0; i < cart.length; i++) {
+        resultParcial = cart[i].unitCost * document.getElementById(`cant_unit${i}`).value
+        document.getElementById(`subtotal${i}`).innerHTML = cart[i].currency + ' ' + resultParcial
+        resultTotal += resultParcial
+        document.getElementById('total').innerHTML = 'Total: ' + cart[i].currency + ' ' + resultTotal
+    }
 
 }
+
 
 document.addEventListener('DOMContentLoaded', function () {
     getJSONData(CART_URL).then(function (resultObj) {
         if (resultObj.status === "ok") {
             cartArray = resultObj.data.articles[0]
-            
-            addingObject(cartArticlesList)
+            cartArticlesList = JSON.parse(localStorage.getItem('cart'))
             mostrarCarrito(cartArticlesList)
-            console.log(cartArray)
+            result(cartArticlesList)
+            console.log(cartArticlesList)
 
-        }
-
-    })
-    //localStorage.setItem('cart', JSON.stringify(cartArray))
-
-    //subtotal(cartArticles)
-    /* document.getElementById('cant_unit').addEventListener('input', function () {
-        subtotal(cartArticles)
-    }) */
 
 }
 
-)
+    }
+
+)})
 
 
-console.log(cartArticlesList)
+
+

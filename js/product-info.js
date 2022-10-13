@@ -6,7 +6,6 @@ let boton_comments = document.getElementById("showAllOrLess")
 let currentProduct = []
 let comments_list = []
 let cartArticlesList = []
-let cartArticlesListJSON = []
 
 //Muestro el producto que el usuario seleccionó previamente.
 function showProduct(array) {
@@ -202,35 +201,30 @@ function showAllOrLess() {
 function sendToCart(array) {
     let product = array
     let cartProduct = {}
-    let cartArticlesListJSONTest = JSON.parse(localStorage.getItem('cart'))
-    console.log(cartArticlesListJSONTest)
-    if (cartArticlesListJSONTest == null) {
-        localStorage.setItem('cart', JSON.stringify(cartArray))
-    }
-    cartArticlesListJSON = JSON.parse(localStorage.getItem('cart'))
 
-    console.log(cartArticlesListJSON)
-    if (!Object.values(cartArticlesListJSON).includes(product.name)) {
+    cartArticlesList = JSON.parse(localStorage.getItem('cart'))
+
+    console.log(cartArticlesList)
+    let repeated = false
+
+    for (let i = 0; i < cartArticlesList.length; i++) {
+        if (Object.values(cartArticlesList[i]).includes(product.id)) {
+            repeated = true
+            console.log(Object.values(cartArticlesList[i]))
+        }
+
+    }
+    if (repeated == false) {
         cartProduct.name = product.name
         cartProduct.currency = product.currency
         cartProduct.id = product.id
         cartProduct.unitCost = product.cost
         cartProduct.image = product.images[0]
         cartArticlesList.push(cartProduct)
-
-
-    }
-    for (let i = 0; i < cartArticlesListJSON.length; i++) {
-        if (Object.values(cartArticlesList).indexOf(cartArticlesListJSON[i]) ==  -1) {
-            cartArticlesList.push(cartArticlesListJSON[i])
-
-            console.log(i)
-        }
-
-    }
-    localStorage.setItem("cart", JSON.stringify(cartArticlesList))
-    console.log(cartArticlesList)
         
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cartArticlesList))
 
     window.location = "cart.html"
 }
@@ -259,15 +253,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
         }
     })
 
-    getJSONData(CART_URL).then(function (resultObj) {
-        if (resultObj.status === "ok") {
-            cartArray = resultObj.data.articles[0]
-            console.log(cartArticlesList)
-            cartArticlesList.push(cartArray)
-    
 
-        }
-    })
     //Mostrar u ocultar comentarios.
     document.getElementById('showAllOrLess').addEventListener('click', function () {
         showAllOrLess()
