@@ -1,11 +1,11 @@
 let cart_url = CART_INFO_URL + '25801' + EXT_TYPE
 let cant_unit = document.getElementById('cant_unit')
-let cartArray = []
+let cartObject = []
 
 //Función similar a las de mostrar categorías y productos, solo que al ser un único producto, no lo itero.
 
-function mostrarCarrito(array) {
-    let cart = array.articles[0]
+function mostrarCarrito(object) {
+    let cart = object.articles[0]
     let HTMLtext = ''
 
     HTMLtext += `
@@ -41,8 +41,8 @@ function mostrarCarrito(array) {
 // Función encargada de realizar la multiplicación entre el costo de la unidad y el valor ingresado en el input
 // con id 'cant_unit', para luego mostrar en pantalla el resultado en tiempo real.
 
-function subtotal(array) {
-    let cart = array.articles[0]
+function subtotal(object) {
+    let cart = object.articles[0]
     let result = 0
     result = cart.unitCost * document.getElementById('cant_unit').value
     document.getElementById('subtotal').innerHTML =  cart.currency + ' ' + result
@@ -56,11 +56,11 @@ function subtotal(array) {
 document.addEventListener('DOMContentLoaded', function () {
     getJSONData(cart_url).then(function (resultObj) {
         if (resultObj.status === "ok") {
-            cartArray = resultObj.data
-            mostrarCarrito(cartArray)
-            subtotal(cartArray)
+            cartObject = resultObj.data
+            mostrarCarrito(cartObject)
+            subtotal(cartObject)
             document.getElementById('cant_unit').addEventListener('input', function () {
-                subtotal(cartArray)
+                subtotal(cartObject)
             })
 
         }
