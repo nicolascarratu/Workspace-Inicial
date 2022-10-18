@@ -25,17 +25,22 @@ function mostrarCarrito(object) {
                 <div class="col-2">
                     <input type="number" class='w-50' id="cant_unit${i}" oninput='result(cartArticlesList)' value='1' min='1'>
                 </div>
-                  <div class="col-4">
+                  <div class="col-2">
                     <p id='subtotal${i}'>  </p>
                 </div>
+                <div class='col-2'>
+                    <i id='${cart.id}' class='fa fa-trash' onclick='deleteElement(cartArticlesList, ${cart.id})'> </i>
             </div>
         </div>
     </div>
-</div>`
+</div>
+</div>
+`
+
 
     }
 
-    document.getElementById('carrito_id').innerHTML += HTMLtext
+    document.getElementById('carrito_id').innerHTML = HTMLtext
 
 }
 
@@ -77,8 +82,16 @@ function result(array) {
     document.getElementById('porcentaje').innerHTML = 'USD ' + Math.round(resultEnvio)
     document.getElementById('total').innerHTML = 'USD ' + Math.round(resutlFinal)
 
-    
+}
 
+function deleteElement(array, id) {
+    for (let i = 0; i < array.length; i++) {
+        if (Object.values(array[i]).includes(id)) {
+            array.splice(i, 1)
+        }
+    }
+    mostrarCarrito(cartArticlesList)
+    result(cartArticlesList)
 }
 
 // Una vez cargada la página, obtengo el JSON con el producto para mostrar en el carrito. Llamo a la función
@@ -86,16 +99,9 @@ function result(array) {
 // unidades a comprar, se vuelve a llamar a la función subtotal() para actualizar el precio a pagar. 
 
 document.addEventListener('DOMContentLoaded', function () {
-    /*  getJSONData(CART_URL).then(function (resultObj) {
-         if (resultObj.status === "ok") {
-             cartObject = resultObj.data.articles[0] */
     cartArticlesList = JSON.parse(localStorage.getItem('cart'))
     mostrarCarrito(cartArticlesList)
     result(cartArticlesList)
-
 }
 )
-/*  }
 
-)}
-)} */

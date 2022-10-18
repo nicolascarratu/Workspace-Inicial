@@ -6,8 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>eMercado - Todo lo que busques está aquí</title>
   <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+  
+  
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="css/styles.css" rel="stylesheet">
 </head>
 
@@ -35,88 +39,87 @@
   </nav>
   <main>
     <div class="container">
-      <div id="carrito_id">
-        <h3 class="text-center m-3"> Carrito de compras</h3>
-        <h4>Artículos a comprar</h4>
-        <div class='row m-0'>
+      <h3 class="text-center m-3"> Carrito de compras</h3>
+      <h4>Artículos a comprar</h4>
+      <div class='row m-0'>
+        <div class='list-group mt-3'>
+          <div class="list-group-item">
+            <div class="row fw-bold">
+              <div class="col"></div>
+              <div class='col-2'>
+                <p>Nombre</p>
+              </div>
+              <div class='col-2'>
+                <p>Costo</p>
+              </div>
+              <div class='col-2'>
+                <p>Cantidad</p>
+              </div>
+              <div class='col-4'>
+                <p>Subtotal</p>
+              </div>
+            </div>
+            <div id="carrito_id">
+            </div>
+          </div>
+        </div>
+      </div>
+    <div>
+      <h4 class='mt-3'> Tipo de envío </h4>
+      <div>
+        <input type="radio" id="premium" name="envio" onclick='result(cartArticlesList)' checked>
+        <label for='premium'> Premium 2 a 5 días (15%)</label>
+      </div>
+      <div>
+        <input type="radio" id='express' class="mt-2" name="envio" onclick='result(cartArticlesList)'>
+        <label for='express'>Express 5 a 8 días (7%) </label>
+      </div>
+      <div>
+        <input type="radio" id="standard" class="mt-2" name="envio" onclick='result(cartArticlesList)'>
+        <label for='express'> Standard 12 a 15 días (5%) </label>
+      </div>
+    </div>
+    <div>
+      <h4 class="mt-3">Dirección de envío</h4>
+      <div class="row m-0">
+        <label for="calle"> Calle </label>
+        <input class='col-4' id="calle">
+        <label for="numero"> Numero</label>
+        <input class='col-2' id="numero">
+        <label for="esquina"> Esquina</label>
+        <input class='col-4' id="esquina">
+      </div>
+    </div>
+    <div>
+      <h4 class='mt-3'>Costos</h4>
+      <div class='container'>
+        <div class="row">
           <div class='list-group mt-3'>
             <div class="list-group-item">
-              <div class="row fw-bold">
-                <div class="col"></div>
-                <div class='col-2'>
-                  <p>Nombre</p>
-                </div>
-                <div class='col-2'>
-                  <p>Costo</p>
-                </div>
-                <div class='col-2'>
-                  <p>Cantidad</p>
-                </div>
-                <div class='col-4'>
-                  <p>Subtotal</p>
-                </div>
-
+              <div class="row">
+                <h5 class="col-10"> Subtotal</h5>
+                <p class="col-10"> Costo unitario del producto por cantidad</p>
+                <p class='col-2' id="subtotal"></p>
+              </div>
+            </div>
+            <div class='list-group-item'>
+              <div class='row'>
+                <h5 class="col-10">Costo de envio</h5>
+                <p class="col-10">Segun el tipo de envio</p>
+                <p class='col-2' id="porcentaje"></p>
+              </div>
+            </div>
+            <div class='list-group-item'>
+              <div class="row">
+                <h5 class="col-10">Total</h5>
+                <p class='col-2' id="total"></p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div>
-        <h4 class='mt-3'> Tipo de envío </h4>
-        <div>
-          <input type="radio" id="premium" name="envio" onclick='result(cartArticlesList)' checked>
-          <label for='premium'> Premium 2 a 5 días (15%)</label>
-        </div>
-        <div>
-          <input type="radio" id='express' class="mt-2" name="envio" onclick='result(cartArticlesList)'>
-          <label for='express'>Express 5 a 8 días (7%) </label>
-        </div>
-        <div>
-          <input type="radio" id="standard" class="mt-2" name="envio" onclick='result(cartArticlesList)'>
-          <label for='express'> Standard 12 a 15 días (5%) </label>
-        </div>
-      </div>
-      <div>
-        <h4 class="mt-3">Dirección de envío</h4>
-        <div class="row m-0">
-          <label for="calle"> Calle </label>
-          <input class='col-4' id="calle">
-          <label for="numero"> Numero</label>
-          <input class='col-2' id="numero">
-          <label for="esquina"> Esquina</label>
-          <input class='col-4' id="esquina">
-        </div>
-      </div>
-      <div>
-        <h4 class='mt-3'>Costos</h4>
-        <div class='container'>
-          <div class="row">
-            <div class='list-group mt-3'>
-              <div class="list-group-item">
-                <div class="row">
-                  <h5 class="col-10"> Subtotal</h5>
-                  <p class="col-10"> Costo unitario del producto por cantidad</p>
-                  <p class='col-2' id="subtotal"></p>
-                </div>
-              </div>
-              <div class='list-group-item'>
-                <div class='row'>
-                  <h5 class="col-10">Costo de envio</h5>
-                  <p class="col-10">Segun el tipo de envio</p>
-                  <p class='col-2' id="porcentaje"></p>
-                </div>
-              </div>
-              <div class='list-group-item'>
-                <div class="row">
-                  <h5 class="col-10">Total</h5>
-                  <p class='col-2' id="total"></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-      </div>
+    </div>
     </div>
   </main>
   <footer class="text-muted">
