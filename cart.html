@@ -83,11 +83,17 @@
         <h4 class="mt-3">Dirección de envío</h4>
         <div class="row m-0">
           <label for="calle"> Calle </label>
-          <input class='col-4' id="calle">
+          <div class='col-6'>
+            <input id="calle">
+          </div>
           <label for="numero"> Numero</label>
-          <input class='col-2' id="numero">
+          <div class='col-6'>
+            <input id="numero">
+          </div>
           <label for="esquina"> Esquina</label>
-          <input class='col-4' id="esquina">
+          <div class='col-4'>
+            <input id="esquina">
+          </div>
         </div>
       </div>
       <div>
@@ -122,7 +128,7 @@
 
       <div>
         <h4> Forma de pago </h4>
-        <p> No has seleccionado</p>
+        <p id="formaDePago"> No has seleccionado</p>
         <a data-bs-toggle="modal" data-bs-target="#modalPago" href="#modalPago"> Seleccionar</a>
       </div>
       <div class="modal fade" id="modalPago" tabindex="-1" aria-labelledby="modalPagoLabel" aria-hidden="true">
@@ -134,18 +140,42 @@
             </div>
             <div class="modal-body">
               <div class="row">
-                <input class='col' type="radio" id="tarjeta" name="opcionPago">
-                <label class='col' for='tarjeta'>Tarjeta de credito</label>
-                <label for="cardNumber">Numero de tarjeta</label>
-                <input id="cardNumber">
-                <label  for="code">Codigo de seg.</label>
-                <input id="code">
-                <label for="expiration">Vencimiento (MM/AA)</label>
-                <input id="expiration">
+
+                <div class="col-12">
+                  <input type="radio" id="tarjeta" name="opcionPago">
+                  <label for='tarjeta'>Tarjeta de credito</label>
+                </div>
+                <fieldset id="option1">
+                  <hr class="mt-3">
+                  <div class="col-6">
+                    <label for="cardNumber">Numero de tarjeta</label>
+                    <input id="cardNumber">
+                  </div>
+                  <div class="col-6">
+                    <label for="code">Codigo de seg.</label>
+                    <input id="code">
+                  </div>
+                  <div class="col-6 mt-3">
+                    <label for="expiration">Vencimiento (MM/AA)</label>
+                    <input id="expiration">
+                  </div>
+                </fieldset>
+
+                <div class="col-12 mt-3">
+                  <input type="radio" id="transfer" name="opcionPago">
+                  <label for='transfer'>Transferencia bancaria</label>
+                </div>
+                <fieldset id='option2'>
+                  <hr class="mt-3">
+                  <div class="col-6">
+                    <label for="cuenta">Numero de cuenta</label>
+                    <input id="cuenta">
+                  </div>
+                </fieldset>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+              <button type="button" id="cerrar" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
             </div>
           </div>
         </div>

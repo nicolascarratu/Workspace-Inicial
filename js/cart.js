@@ -2,6 +2,7 @@ let cant_unit = document.getElementById('cant_unit')
 let cartArticles = {}
 let cartArticlesList = []
 let cartObject = []
+let cartArray = []
 
 function mostrarCarrito(object) {
     let HTMLtext = ''
@@ -23,7 +24,7 @@ function mostrarCarrito(object) {
                     <p> USD ${cart.unitCost}</p>
                 </div>
                 <div class="col-2">
-                    <input type="number" class='w-50' id="cant_unit${i}" oninput='result(cartArticlesList)' value='1' min='1'>
+                    <input type="number" class='w-50' id="cant_unit${i}" oninput='result(cartArticlesList); updateCount(cartArticlesList, ${cart.id})' value=${cart.count} min='1'>
                 </div>
                   <div class="col-2">
                     <p id='subtotal${i}'>  </p>
@@ -65,7 +66,7 @@ function result(array) {
         resultSubtotalInd = precioEnDolares * document.getElementById(`cant_unit${i}`).value
         document.getElementById(`subtotal${i}`).innerHTML = 'USD ' + resultSubtotalInd
         resultSubTotalGeneral += resultSubtotalInd
-        document.getElementById('subtotal').innerHTML = 'USD ' + resultSubTotalGeneral
+
     }
     if (document.getElementById('premium').checked) {
         resultEnvio = resultSubTotalGeneral * 0.15
@@ -81,7 +82,7 @@ function result(array) {
 
     document.getElementById('porcentaje').innerHTML = 'USD ' + Math.round(resultEnvio)
     document.getElementById('total').innerHTML = 'USD ' + Math.round(resutlFinal)
-
+    document.getElementById('subtotal').innerHTML = 'USD ' + resultSubTotalGeneral
 }
 
 function deleteElement(array, id) {
@@ -92,16 +93,69 @@ function deleteElement(array, id) {
     }
     mostrarCarrito(cartArticlesList)
     result(cartArticlesList)
+    localStorage.setItem("cart", JSON.stringify(array))
 }
+
+function updateCount(array, id) {
+    for (let i = 0; i < array.length; i++) {
+        if (Object.values(array[i]).includes(id)) {
+            array[i].count = document.getElementById(`cant_unit${i}`).value
+        }
+
+    }
+
+    localStorage.setItem("cart", JSON.stringify(array))
+}
+
+function formaDePago() {
+    document.getElementById('option2').setAttribute('disabled', '')
+    document.getElementById('option1').removeAttribute('disabled', '')
+}
+
+function formaDePago2() {
+    document.getElementById('option1').setAttribute('disabled', '')
+    document.getElementById('option2').removeAttribute('disabled', '')
+}
+
 
 // Una vez cargada la página, obtengo el JSON con el producto para mostrar en el carrito. Llamo a la función
 // que se encarga de mostrarlo, y también a la calcula el subtotal. Por último, si se modifica la cantidad de 
 // unidades a comprar, se vuelve a llamar a la función subtotal() para actualizar el precio a pagar. 
 
 document.addEventListener('DOMContentLoaded', function () {
-    cartArticlesList = JSON.parse(localStorage.getItem('cart'))
-    mostrarCarrito(cartArticlesList)
-    result(cartArticlesList)
-}
-)
+    getJSONData(CART_URL).then(function (resultObj) {
+        if (resultObj.status === "ok") {
+            cartArray.push(resultObj.data.articles[0])
+            let cartArticlesListJSONTest = JSON.parse(localStorage.getItem('cart'))
+            console.log(cartArticlesListJSONTest)
+            if (cartArticlesListJSONTest === null || cartArticlesListJSONTest == false) {
+                localStorage.setItem('cart', JSON.stringify(cartArray))
+            }
+
+        }
+
+        cartArticlesList = JSON.parse(localStorage.getItem('cart'))
+        mostrarCarrito(cartArticlesList)
+        result(cartArticlesList)
+
+    })
+
+
+    document.getElementById('tarjeta').addEventListener('click', function () {
+        formaDePago()
+    })
+    document.getElementById('transfer').addEventListener('click', function () {
+        formaDePago2()
+    })
+    document.getElementById('cerrar').addEventListener('click', function () {
+        if (document.getElementById('tarjeta').checked) {
+            document.getElementById('formaDePago').innerHTML = 'Tarjeta de credito'
+        }
+        else if (document.getElementById('transfer').checked) {
+            document.getElementById('formaDePago').innerHTML = 'Transferencia bancaria'
+        }
+
+    }
+    )
+})
 

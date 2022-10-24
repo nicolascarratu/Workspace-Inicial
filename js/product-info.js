@@ -220,6 +220,7 @@ function sendToCart(array) {
         cartProduct.id = product.id
         cartProduct.unitCost = product.cost
         cartProduct.image = product.images[0]
+        cartProduct.count = 1
         cartArticlesList.push(cartProduct)
         
     }

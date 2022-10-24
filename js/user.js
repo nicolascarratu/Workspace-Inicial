@@ -1,7 +1,5 @@
 //Obtengo el nombre del usuario para mostrarlo en cada página del sitio.
 var user = localStorage.getItem('User')
-const CART_URL = CART_INFO_URL + '25801' + EXT_TYPE
-let cartArray = []
 
 function cargaUser() {
     usuario = ''
@@ -31,16 +29,7 @@ function cargaUser() {
 }
 document.addEventListener('DOMContentLoaded', function () {
     cargaUser()
-    getJSONData(CART_URL).then(function (resultObj) {
-        if (resultObj.status === "ok") {
-            cartArray.push(resultObj.data.articles[0])
-            let cartArticlesListJSONTest = JSON.parse(localStorage.getItem('cart'))
-            if (cartArticlesListJSONTest == null) {
-                localStorage.setItem('cart', JSON.stringify(cartArray))
-            }
-
-        }
-    })
+  
 })
 
 //La declaro en este js para asi se puede usar tambien en la pagina principal, y no solo en la de categorias.
