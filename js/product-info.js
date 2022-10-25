@@ -6,6 +6,7 @@ let boton_comments = document.getElementById("showAllOrLess")
 let currentProduct = []
 let comments_list = []
 let cartArticlesList = []
+let cartArray = []
 
 //Muestro el producto que el usuario seleccionó previamente.
 function showProduct(array) {
@@ -254,6 +255,16 @@ document.addEventListener("DOMContentLoaded", function (e) {
         }
     })
 
+    getJSONData(CART_URL).then(function (resultObj) {
+        if (resultObj.status === "ok") {
+            cartArray.push(resultObj.data.articles[0])
+            let cartArticlesListJSONTest = JSON.parse(localStorage.getItem('cart'))
+            console.log(cartArticlesListJSONTest)
+            if (cartArticlesListJSONTest === null || cartArticlesListJSONTest == false) {
+                localStorage.setItem('cart', JSON.stringify(cartArray))
+            }
+
+        }})
 
     //Mostrar u ocultar comentarios.
     document.getElementById('showAllOrLess').addEventListener('click', function () {
