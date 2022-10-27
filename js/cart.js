@@ -117,6 +117,10 @@ function formaDePago2() {
     document.getElementById('option2').removeAttribute('disabled', '')
 }
 
+function validaciones() {
+    
+}
+
 
 // Una vez cargada la página, obtengo el JSON con el producto para mostrar en el carrito. Llamo a la función
 // que se encarga de mostrarlo, y también a la calcula el subtotal. Por último, si se modifica la cantidad de 
@@ -157,5 +161,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
     )
+
+    document.getElementById('botonFin').addEventListener('click', function(){
+        validaciones()
+    })
 })
 
