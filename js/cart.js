@@ -21,11 +21,12 @@ function mostrarCarrito(object) {
                     <a onclick="setProdID(${cart.id})"> ${cart.name}</a>
                 </div>
                 <div class="col-2">
-                    <p> USD ${cart.unitCost}</p>
+                    <p> USD ${cuenta(cart.currency, cart.unitCost)}</p>
                 </div>
-                <div class="col-2">
-                    <input type="number" class='w-50' id="cant_unit${i}" oninput='result(cartArticlesList); updateCount(cartArticlesList, ${cart.id})' value=${cart.count} min='1'>
-                </div>
+                    <div class='col-2'>
+                    <input type="number" class='w-50 cantidad-unidades' id="cant_unit${i}" oninput='result(cartArticlesList); updateCount(cartArticlesList, ${cart.id})' value=${cart.count} min='1'>
+                     </div> 
+            
                   <div class="col-2">
                     <p id='subtotal${i}'>  </p>
                 </div>
@@ -38,7 +39,6 @@ function mostrarCarrito(object) {
 </div>
 `
 
-
     }
 
     document.getElementById('carrito_id').innerHTML = HTMLtext
@@ -47,6 +47,16 @@ function mostrarCarrito(object) {
 
 // Función encargada de realizar la multiplicación entre el costo de la unidad y el valor ingresado en el input
 // con id 'cant_unit', para luego mostrar en pantalla el resultado en tiempo real.
+
+function cuenta(currency, cost) {
+    if (currency == 'UYU') {
+        precioEnDolares = Math.round(cost / 41)
+    }
+    else {
+        precioEnDolares = cost
+    }
+    return precioEnDolares
+}
 
 function result(array) {
     let cart = array
@@ -118,8 +128,24 @@ function formaDePago2() {
 }
 
 function validaciones() {
-    
+    var form = document.querySelector('.needs-validation')
+    var cantUnits = document.querySelectorAll('.cantidad-unidades')
+
+    form.addEventListener('submit', function (event) {
+        for (let i = 0; i < cantUnits.length; i++) {
+            let product = cantUnits[i];
+            if (!form.checkValidity() || product.value <= 0) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+        }})
+
+
+  
 }
+
 
 
 // Una vez cargada la página, obtengo el JSON con el producto para mostrar en el carrito. Llamo a la función
@@ -141,6 +167,7 @@ document.addEventListener('DOMContentLoaded', function () {
         cartArticlesList = JSON.parse(localStorage.getItem('cart'))
         mostrarCarrito(cartArticlesList)
         result(cartArticlesList)
+        validaciones()
 
     })
 
@@ -162,8 +189,5 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     )
 
-    document.getElementById('botonFin').addEventListener('click', function(){
-        validaciones()
-    })
 })
 
