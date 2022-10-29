@@ -130,20 +130,71 @@ function formaDePago2() {
 function validaciones() {
     var form = document.querySelector('.needs-validation')
     var cantUnits = document.querySelectorAll('.cantidad-unidades')
+    var envio = document.querySelectorAll('input[name="envio"]')
+    const TARJETA = document.getElementById('tarjeta')
+    const TRANFERENCIA = document.getElementById('transfer')
+    let tiposDePago = document.getElementsByName('opcionPago')
+    let optionPagoNull = true
+    let optionEnvioNull = true
 
     form.addEventListener('submit', function (event) {
         for (let i = 0; i < cantUnits.length; i++) {
             let product = cantUnits[i];
-            if (!form.checkValidity() || product.value <= 0) {
+            if (!form.checkValidity()) {
                 event.preventDefault()
                 event.stopPropagation()
             }
 
+            if (product.value <= 0) {
+                event.preventDefault()
+                event.stopPropagation()
+                document.getElementById(`cant_unit${[i]}`).classList.add('border', 'border-danger')
+                document.getElementById(`cant_unit${[i]}`).addEventListener('input', function () {
+                    document.getElementById(`cant_unit${[i]}`).classList.remove('border', 'border-danger')
+                })
+            }
+
             form.classList.add('was-validated')
-        }})
+        }
+        for (let i = 0; i < envio.length; i++) {
+            let radioButton = envio[i];
+            if (radioButton.checked) {
+                optionEnvioNull = false
+            }
+
+        }
+        if (optionEnvioNull) {
+            event.preventDefault()
+            event.stopPropagation()
+            document.getElementById('tipoEnvio').classList.add('border', 'border-danger')
+            document.getElementById('tipoEnvio').addEventListener('click', function () {
+                document.getElementById('tipoEnvio').classList.remove('border', 'border-danger')
+            })
+
+        }
+        tiposDePago.forEach(optionPago => {
+            if (optionPago.checked) {
+                optionPagoNull = false
+
+            }
+        })
+
+        if (optionPagoNull) {
+            event.preventDefault()
+            event.stopPropagation()
+            document.getElementById('formaDePago').innerHTML = 'Debes seleccionar una forma de pago'
+            document.getElementById('formaDePago').classList.add('text-danger')
+            document.getElementById('cerrar').addEventListener('click', function () {
+                if (TARJETA.checked || TRANFERENCIA.checked) {
+                    document.getElementById('formaDePago').classList.remove('text-danger')
+                }
+            })
+        }
+        document.getElementById('cerrar').dataset.bsDismiss = ''
+
+    })
 
 
-  
 }
 
 
