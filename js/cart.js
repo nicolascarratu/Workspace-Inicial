@@ -117,22 +117,31 @@ function updateCount(array, id) {
     localStorage.setItem("cart", JSON.stringify(array))
 }
 
-function formaDePago() {
+function formaDePagoTarjeta() {
     document.getElementById('option2').setAttribute('disabled', '')
     document.getElementById('option1').removeAttribute('disabled', '')
+    let arrayOpcion1 = document.getElementById('option1')['elements']
+    for (let i = 0; i < arrayOpcion1.length; i++) {
+        let opcion = arrayOpcion1[i];
+        opcion.setAttribute('required', '')
+    }
+
 }
 
-function formaDePago2() {
+function formaDePagoTransfer() {
     document.getElementById('option1').setAttribute('disabled', '')
     document.getElementById('option2').removeAttribute('disabled', '')
+    document.getElementById('cuenta').setAttribute('required', '')
+
 }
 
 function validaciones() {
-    var form = document.querySelector('.needs-validation')
+    var form = document.getElementById('formBuy')
     var cantUnits = document.querySelectorAll('.cantidad-unidades')
     var envio = document.querySelectorAll('input[name="envio"]')
     const TARJETA = document.getElementById('tarjeta')
     const TRANFERENCIA = document.getElementById('transfer')
+
     let tiposDePago = document.getElementsByName('opcionPago')
     let optionPagoNull = true
     let optionEnvioNull = true
@@ -188,15 +197,34 @@ function validaciones() {
                 if (TARJETA.checked || TRANFERENCIA.checked) {
                     document.getElementById('formaDePago').classList.remove('text-danger')
                 }
+                /*  else if(!TARJETA.checked && !TRANFERENCIA.cheched) {
+                     
+                 } */
+
             })
+
         }
-        document.getElementById('cerrar').dataset.bsDismiss = ''
+        else {
+            if (!document.getElementById('formPayment').checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+                document.getElementById('formaDePago').classList.add('text-danger')
+            }
+   /*          else {
+                document.getElementById('cerrar').addEventListener('click', function () {
+                    document.getElementById('formaDePago').classList.remove('text-danger')
+                }
+                ) */
+            }
+
+            document.getElementById('formPayment').classList.add('was-validated')
+        }
 
     })
 
 
-}
 
+}
 
 
 // Una vez cargada la página, obtengo el JSON con el producto para mostrar en el carrito. Llamo a la función
@@ -224,10 +252,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     document.getElementById('tarjeta').addEventListener('click', function () {
-        formaDePago()
+        formaDePagoTarjeta()
     })
     document.getElementById('transfer').addEventListener('click', function () {
-        formaDePago2()
+        formaDePagoTransfer()
     })
     document.getElementById('cerrar').addEventListener('click', function () {
         if (document.getElementById('tarjeta').checked) {
@@ -236,6 +264,8 @@ document.addEventListener('DOMContentLoaded', function () {
         else if (document.getElementById('transfer').checked) {
             document.getElementById('formaDePago').innerHTML = 'Transferencia bancaria'
         }
+
+
 
     }
     )

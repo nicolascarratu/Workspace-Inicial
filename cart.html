@@ -141,24 +141,24 @@
             </div>
             <div class="modal-body">
               <div class="row">
-                <form id='formPayment'>
+                <form id='formPayment' class='needs-validation' novalidate>
                   <div class="col-12">
                     <input type="radio" id="tarjeta" name="opcionPago">
                     <label for='tarjeta'>Tarjeta de credito</label>
                   </div>
-                  <fieldset id="option1" >
+                  <fieldset id="option1">
                     <hr class="mt-3">
                     <div class="col-6">
-                      <label for="cardNumber">Numero de tarjeta</label>
-                      <input id="cardNumber" required>
+                      <label for="cardNumber" class="form-label"> Numero de tarjeta</label>
+                      <input id="cardNumber" class='form-control' required>
                     </div>
                     <div class="col-6">
-                      <label for="code">Codigo de seg.</label>
-                      <input id="code">
+                      <label for="code" class="form-label">Codigo de seg.</label>
+                      <input id="code" class='form-control'>
                     </div>
-                    <div class="col-6 mt-3">
-                      <label for="expiration">Vencimiento (MM/AA)</label>
-                      <input id="expiration">
+                    <div class="col-6">
+                      <label for="expiration" class="form-label">Vencimiento (MM/AA)</label>
+                      <input id="expiration" class='form-control'>
                     </div>
                   </fieldset>
 
@@ -169,13 +169,13 @@
                   <fieldset id='option2'>
                     <hr class="mt-3">
                     <div class="col-6">
-                      <label for="cuenta">Numero de cuenta</label>
-                      <input id="cuenta">
+                      <label for="cuenta" class="form-label">Numero de cuenta</label>
+                      <input id="cuenta" class='form-control'>
                     </div>
                   </fieldset>
                   
                   <div class="modal-footer">
-                  <button form="formPayment" id="cerrar" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                  <input type="button" id="cerrar" class="btn btn-primary" data-bs-dismiss="modal" value="Cerrar">
                 </div>
                 </form>
                 
