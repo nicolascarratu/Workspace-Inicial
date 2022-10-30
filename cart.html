@@ -40,6 +40,7 @@
   <main>
     <div class="container">
       <h3 class="text-center m-3"> Carrito de compras</h3>
+      <div id="exito"></div>
       <h4>Artículos a comprar</h4>
       <div class='row m-0'>
         <div class='list-group mt-3'>
@@ -82,19 +83,27 @@
       <form id='formBuy' class="needs-validation" novalidate>
         <h4 class="mt-3">Dirección de envío</h4>
         <div class="row m-0">
-          <label for="calle" class="form-label"> Calle </label>
           <div class='col-6'>
+            <label for="calle" class="form-label"> Calle </label>
             <input class='form-control' id="calle" required>
+            <div class="invalid-feedback">
+              Ingrese una calle.
+            </div>
           </div>
-          <label for="numero" class="form-label"> Numero</label>
-          <div class='col-4'>
+          <div class='col-3'>
+            <label for="numero" class="form-label"> Numero</label>
             <input class='form-control' id="numero" required>
+            <div class="invalid-feedback">
+              Ingrese un número.
+            </div>
           </div>
-          <label for="esquina" class="form-label"> Esquina</label>
-          <div class='col-4'>
+          <div class='col-6'>
+            <label for="esquina" class="form-label"> Esquina</label>
             <input class='form-control' id="esquina" required>
+            <div class="invalid-feedback">
+              Ingrese una esquina.
+            </div>
           </div>
-
         </div>
       </form>
       <div>
@@ -111,8 +120,8 @@
               </div>
               <div class='list-group-item'>
                 <div class='row'>
-                  <h5 class="col-10">Costo de envio</h5>
-                  <p class="col-10">Segun el tipo de envio</p>
+                  <h5 class="col-10">Costo de envío</h5>
+                  <p class="col-10">Segun el tipo de envío</p>
                   <p class='col-2' id="porcentaje"></p>
                 </div>
               </div>
@@ -149,11 +158,11 @@
                   <fieldset id="option1">
                     <hr class="mt-3">
                     <div class="col-6">
-                      <label for="cardNumber" class="form-label"> Numero de tarjeta</label>
-                      <input id="cardNumber" class='form-control' required>
+                      <label for="cardNumber" class="form-label"> Número de tarjeta</label>
+                      <input id="cardNumber" class='form-control'>
                     </div>
                     <div class="col-6">
-                      <label for="code" class="form-label">Codigo de seg.</label>
+                      <label for="code" class="form-label">Código de seg.</label>
                       <input id="code" class='form-control'>
                     </div>
                     <div class="col-6">
@@ -169,16 +178,16 @@
                   <fieldset id='option2'>
                     <hr class="mt-3">
                     <div class="col-6">
-                      <label for="cuenta" class="form-label">Numero de cuenta</label>
+                      <label for="cuenta" class="form-label">Número de cuenta</label>
                       <input id="cuenta" class='form-control'>
                     </div>
                   </fieldset>
-                  
+
                   <div class="modal-footer">
-                  <input type="button" id="cerrar" class="btn btn-primary" data-bs-dismiss="modal" value="Cerrar">
-                </div>
+                    <input type="button" id="cerrar" class="btn btn-primary" data-bs-dismiss="modal" value="Cerrar">
+                  </div>
                 </form>
-                
+
               </div>
             </div>
 
@@ -186,7 +195,7 @@
         </div>
       </div>
       <div class="mt-3 d-grid gap-2 col-4 mx-auto">
-        <button class="btn btn-primary" id="botonFin" form="formBuy" type="submit"> Finalizar compra </button>
+        <button class="btn btn-primary" id="botonFin"> Finalizar compra </button>
       </div>
     </div>
   </main>

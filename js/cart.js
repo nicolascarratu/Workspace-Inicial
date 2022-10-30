@@ -145,16 +145,17 @@ function validaciones() {
     let tiposDePago = document.getElementsByName('opcionPago')
     let optionPagoNull = true
     let optionEnvioNull = true
+    let productNot = false
 
-    form.addEventListener('submit', function (event) {
+
+
+    document.getElementById('botonFin').addEventListener('click', function (event) {
         for (let i = 0; i < cantUnits.length; i++) {
             let product = cantUnits[i];
-            if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-            }
+
 
             if (product.value <= 0) {
+                productNot = true
                 event.preventDefault()
                 event.stopPropagation()
                 document.getElementById(`cant_unit${[i]}`).classList.add('border', 'border-danger')
@@ -163,8 +164,9 @@ function validaciones() {
                 })
             }
 
-            form.classList.add('was-validated')
+
         }
+
         for (let i = 0; i < envio.length; i++) {
             let radioButton = envio[i];
             if (radioButton.checked) {
@@ -197,35 +199,48 @@ function validaciones() {
                 if (TARJETA.checked || TRANFERENCIA.checked) {
                     document.getElementById('formaDePago').classList.remove('text-danger')
                 }
-                /*  else if(!TARJETA.checked && !TRANFERENCIA.cheched) {
-                     
-                 } */
 
             })
 
         }
-        else {
-            if (!document.getElementById('formPayment').checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-                document.getElementById('formaDePago').classList.add('text-danger')
-            }
-   /*          else {
-                document.getElementById('cerrar').addEventListener('click', function () {
-                    document.getElementById('formaDePago').classList.remove('text-danger')
-                }
-                ) */
-            }
 
-            document.getElementById('formPayment').classList.add('was-validated')
+        if (!document.getElementById('formPayment').checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
         }
+
+        if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+        }
+
+        if (form.checkValidity() && !optionEnvioNull && !productNot && document.getElementById('formPayment').checkValidity() ){
+            document.getElementById('exito').innerHTML = `<div class="alert alert-success" role="alert">
+        ¡Has comprado con éxito!
+            </div>`
+        }
+        form.classList.add('was-validated')
+
 
     })
 
 
-
 }
 
+function checkeo() {
+    document.getElementById('cerrar').addEventListener('click', function () {
+        if (!document.getElementById('formPayment').checkValidity()) {
+            document.getElementById('formaDePago').classList.add('text-danger')
+
+        }
+        else {
+            document.getElementById('formaDePago').classList.remove('text-danger')
+        }
+        document.getElementById('formPayment').classList.add('was-validated')
+
+    })
+
+}
 
 // Una vez cargada la página, obtengo el JSON con el producto para mostrar en el carrito. Llamo a la función
 // que se encarga de mostrarlo, y también a la calcula el subtotal. Por último, si se modifica la cantidad de 
@@ -250,22 +265,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     })
 
-
     document.getElementById('tarjeta').addEventListener('click', function () {
         formaDePagoTarjeta()
+        checkeo()
     })
+
     document.getElementById('transfer').addEventListener('click', function () {
         formaDePagoTransfer()
+        checkeo()
+
     })
     document.getElementById('cerrar').addEventListener('click', function () {
         if (document.getElementById('tarjeta').checked) {
-            document.getElementById('formaDePago').innerHTML = 'Tarjeta de credito'
+            document.getElementById('formaDePago').innerHTML = 'Tarjeta de crédito'
         }
         else if (document.getElementById('transfer').checked) {
             document.getElementById('formaDePago').innerHTML = 'Transferencia bancaria'
         }
-
-
 
     }
     )
