@@ -160,7 +160,10 @@ function validaciones() {
                 event.stopPropagation()
                 document.getElementById(`cant_unit${[i]}`).classList.add('border', 'border-danger')
                 document.getElementById(`cant_unit${[i]}`).addEventListener('input', function () {
-                    document.getElementById(`cant_unit${[i]}`).classList.remove('border', 'border-danger')
+                    if (product.value > 0) {
+                        document.getElementById(`cant_unit${[i]}`).classList.remove('border', 'border-danger')
+                        productNot = false
+                    }
                 })
             }
 
@@ -180,6 +183,7 @@ function validaciones() {
             document.getElementById('tipoEnvio').classList.add('border', 'border-danger')
             document.getElementById('tipoEnvio').addEventListener('click', function () {
                 document.getElementById('tipoEnvio').classList.remove('border', 'border-danger')
+                optionEnvioNull = true
             })
 
         }
@@ -214,7 +218,7 @@ function validaciones() {
             event.stopPropagation()
         }
 
-        if (form.checkValidity() && !optionEnvioNull && !productNot && document.getElementById('formPayment').checkValidity() ){
+        if (form.checkValidity() && !optionEnvioNull && !productNot && !optionPagoNull && document.getElementById('formPayment').checkValidity()) {
             document.getElementById('exito').innerHTML = `<div class="alert alert-success" role="alert">
         ¡Has comprado con éxito!
             </div>`
