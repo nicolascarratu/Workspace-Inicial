@@ -45,9 +45,7 @@ function mostrarCarrito(object) {
 
 }
 
-// Función encargada de realizar la multiplicación entre el costo de la unidad y el valor ingresado en el input
-// con id 'cant_unit', para luego mostrar en pantalla el resultado en tiempo real.
-
+// Pasa de pesos a dólares el precio de los productos.
 function cuenta(currency, cost) {
     if (currency == 'UYU') {
         precioEnDolares = Math.round(cost / 41)
@@ -58,6 +56,8 @@ function cuenta(currency, cost) {
     return precioEnDolares
 }
 
+// Función encargada de realizar la multiplicación entre el costo de la unidad y el valor ingresado en el input
+// con id 'cant_unit', para luego mostrar en pantalla el resultado en tiempo real.
 function result(array) {
     let cart = array
     let resultSubtotalInd = 0
@@ -95,6 +95,7 @@ function result(array) {
     document.getElementById('subtotal').innerHTML = 'USD ' + resultSubTotalGeneral
 }
 
+// Borra un producto del carrito si se selecciona en el ícono de basura y se actualiza el subtotal y total.
 function deleteElement(array, id) {
     for (let i = 0; i < array.length; i++) {
         if (Object.values(array[i]).includes(id)) {
@@ -106,6 +107,7 @@ function deleteElement(array, id) {
     localStorage.setItem("cart", JSON.stringify(array))
 }
 
+// Actualiza la cantidad de unidades de cada producto en el array principal y se guarda en el almacenamiento local.
 function updateCount(array, id) {
     for (let i = 0; i < array.length; i++) {
         if (Object.values(array[i]).includes(id)) {
@@ -117,6 +119,8 @@ function updateCount(array, id) {
     localStorage.setItem("cart", JSON.stringify(array))
 }
 
+// Si se selecciona la forma de pago con tarjeta, se deshabilitan las opciones de tranferencia bancaria y se 
+// vuelven requeridos los campos de la tarjeta. 
 function formaDePagoTarjeta() {
     document.getElementById('option2').setAttribute('disabled', '')
     document.getElementById('option1').removeAttribute('disabled', '')
@@ -128,6 +132,7 @@ function formaDePagoTarjeta() {
 
 }
 
+// Lo mismo pero para el pago con transferencia. 
 function formaDePagoTransfer() {
     document.getElementById('option1').setAttribute('disabled', '')
     document.getElementById('option2').removeAttribute('disabled', '')
@@ -135,6 +140,9 @@ function formaDePagoTransfer() {
 
 }
 
+// Función encargada de realizar las validaciones del formulario con la dirección de envío, cantidad de unidades,
+// elementos en el carrito, opción de pago y de envío. Si todo está OK, se alerta del éxito en la compra y se 
+// recarga la página luego de unos segundos. Si no, se da feedback al usuario para que complete los campos.
 function validaciones() {
     var form = document.getElementById('formBuy')
     var cantUnits = document.querySelectorAll('.cantidad-unidades')
@@ -147,17 +155,12 @@ function validaciones() {
     let optionEnvioNull = true
     let productNot = false
 
-
-
-    document.getElementById('botonFin').addEventListener('click', function (event) {
+    form.addEventListener('submit', function (event) {
         for (let i = 0; i < cantUnits.length; i++) {
             let product = cantUnits[i];
 
-
             if (product.value <= 0) {
                 productNot = true
-                event.preventDefault()
-                event.stopPropagation()
                 document.getElementById(`cant_unit${[i]}`).classList.add('border', 'border-danger')
                 document.getElementById(`cant_unit${[i]}`).addEventListener('input', function () {
                     if (product.value > 0) {
@@ -166,8 +169,6 @@ function validaciones() {
                     }
                 })
             }
-
-
         }
 
         for (let i = 0; i < envio.length; i++) {
@@ -178,8 +179,6 @@ function validaciones() {
 
         }
         if (optionEnvioNull) {
-            event.preventDefault()
-            event.stopPropagation()
             document.getElementById('tipoEnvio').classList.add('border', 'border-danger')
             document.getElementById('tipoEnvio').addEventListener('click', function () {
                 document.getElementById('tipoEnvio').classList.remove('border', 'border-danger')
@@ -195,42 +194,43 @@ function validaciones() {
         })
 
         if (optionPagoNull) {
-            event.preventDefault()
-            event.stopPropagation()
             document.getElementById('formaDePago').innerHTML = 'Debes seleccionar una forma de pago'
             document.getElementById('formaDePago').classList.add('text-danger')
             document.getElementById('cerrar').addEventListener('click', function () {
                 if (TARJETA.checked || TRANFERENCIA.checked) {
                     document.getElementById('formaDePago').classList.remove('text-danger')
                 }
-
             })
-
         }
 
-        if (!document.getElementById('formPayment').checkValidity()) {
-            event.preventDefault()
-            event.stopPropagation()
-        }
+        if (cartArticlesList == false) {
 
-        if (!form.checkValidity()) {
-            event.preventDefault()
-            event.stopPropagation()
-        }
-
-        if (form.checkValidity() && !optionEnvioNull && !productNot && !optionPagoNull && document.getElementById('formPayment').checkValidity()) {
-            document.getElementById('exito').innerHTML = `<div class="alert alert-success" role="alert">
-        ¡Has comprado con éxito!
+            document.getElementById('alerts').innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <p>¡Debes tener al menos un producto en el carrito!</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>`
         }
+
+
+        if (form.checkValidity() && (cartArticlesList != false) && !optionEnvioNull && !productNot && !optionPagoNull && document.getElementById('formPayment').checkValidity()) {
+            document.getElementById('alerts').innerHTML = `<div class="alert alert-success" role="alert">
+        ¡Has comprado con éxito!
+            </div>`
+            localStorage.setItem('cart', JSON.stringify(cartArray))
+            setTimeout(function () {
+                location.reload()
+            }, 3000)
+
+        }
+
+        event.preventDefault()
+        event.stopPropagation()
         form.classList.add('was-validated')
-
-
-    })
-
+    }, false)
 
 }
 
+// Se encarga de añadir o quitar el color rojo de alerta en la forma de pago si no se cumple la validación.
 function checkeo() {
     document.getElementById('cerrar').addEventListener('click', function () {
         if (!document.getElementById('formPayment').checkValidity()) {
@@ -246,20 +246,14 @@ function checkeo() {
 
 }
 
-// Una vez cargada la página, obtengo el JSON con el producto para mostrar en el carrito. Llamo a la función
-// que se encarga de mostrarlo, y también a la calcula el subtotal. Por último, si se modifica la cantidad de 
-// unidades a comprar, se vuelve a llamar a la función subtotal() para actualizar el precio a pagar. 
-
 document.addEventListener('DOMContentLoaded', function () {
     getJSONData(CART_URL).then(function (resultObj) {
         if (resultObj.status === "ok") {
             cartArray.push(resultObj.data.articles[0])
             let cartArticlesListJSONTest = JSON.parse(localStorage.getItem('cart'))
-            console.log(cartArticlesListJSONTest)
             if (cartArticlesListJSONTest === null || cartArticlesListJSONTest == false) {
                 localStorage.setItem('cart', JSON.stringify(cartArray))
             }
-
         }
 
         cartArticlesList = JSON.parse(localStorage.getItem('cart'))
@@ -291,4 +285,5 @@ document.addEventListener('DOMContentLoaded', function () {
     )
 
 })
+
 
