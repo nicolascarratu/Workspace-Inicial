@@ -50,9 +50,37 @@
   </nav>
   <main>
     <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
-      </div>
+      <h2 class='mt-4'> Perfil </h2>
+      <hr>
+      <form id='cambiosUsuario' class="needs-validation" novalidate>
+        <div class="row">
+          <div class="col-6">
+            <label for="primerNombre" class="form-label"> Primer nombre</label>
+            <input id="primerNombre" class="form-control" required>
+          </div>
+          <div class="col-6">
+            <label for="segundoNombre" class="form-label"> Segundo nombre</label>
+            <input id="segundoNombre" class="form-control">
+          </div>
+          <div class="col-6 mt-3">
+            <label for="primerApellido" class="form-label"> Primer apellido</label>
+            <input id="primerApellido" class="form-control" required>
+          </div>
+          <div class="col-6 mt-3">
+            <label for="segundoApellido" class="form-label"> Segundo apellido</label>
+            <input id="segundoApellido" class="form-control">
+          </div>
+          <div class="col-6 mt-3">
+            <label for="emailUser" class="form-label"> E-mail</label>
+            <input type='email' id="emailUser" class="form-control" required>
+          </div>
+          <div class="col-6 mt-3">
+            <label for="telUser" class="form-label"> Teléfono de contacto</label>
+            <input type='tel' id="telUser" class="form-control">
+          </div>
+        </div>
+        <button class='mt-4 btn btn-primary' type="submit">Guardar cambios</button>
+      </form>
     </div>
   </main>
   <footer class="text-muted">
