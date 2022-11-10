@@ -13,6 +13,7 @@ function showProduct(array) {
     let product = array;
     let productos = ""
     let imagenes = ""
+    let carrusel = ''
     let otros = "<h4> Productos relacionados </h4>"
 
     productos += `
@@ -36,17 +37,37 @@ function showProduct(array) {
             </div>
                 `
 
-    for (let i = 0; i < array.images.length; i++) {
-        let product = array;
+    
         imagenes += `
         
         <div class="col-md-3">
           <div class="thumbnail">
-                <img src="${product.images[i]}" alt="${product.description}" style="width:100%">
+            <div id="carruselImg" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="${product.images[0]}" alt="${product.description}"class="d-block w-100">
+                  </div>
+                  <div id='carrusel'>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carruselImg" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carruselImg" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+        
         </div>
        </div>
-      
         `
+        for (let i = 1; i < array.images.length; i++) {
+        let product = array;
+        carrusel+=  
+                `<div class="carousel-item">
+                    <img src=${product.images[i]} class="d-block w-100" alt=${product.description}>
+                  </div>`
     }
 
     //Al hacer click en una imagen de un producto relacionado, se redirecciona a ese producto.
@@ -71,6 +92,7 @@ function showProduct(array) {
     document.getElementById("product").innerHTML = productos;
     document.getElementById("product_images").innerHTML += imagenes;
     document.getElementById("otros").innerHTML += otros;
+    document.getElementById('carrusel').innerHTML = carrusel;
 
 }
 

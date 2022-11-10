@@ -1,44 +1,40 @@
-let usuario = localStorage.getItem('User')
+let usuarioLocal = localStorage.getItem('User')
 let datosUser = {}
-let datosUserLocal = [] 
+let datosUserByEmail = {}
 
-if (usuario == null) {
+if (usuarioLocal == null) {
     window.location = 'index.html'
 }
 
 function datosUsuario() {
-    datosUserLocal = JSON.parse(localStorage.getItem('datosUserLocal'))
-    if (datosUserLocal == null) {
-        document.getElementById('emailUser').value = usuario
+    let email = document.getElementById('emailUser').value
+    datosUserByEmail = JSON.parse(localStorage.getItem(usuarioLocal))
+    if (datosUserByEmail == null) {
+        email = usuarioLocal
     }
 
     else {
-        datosUserLocal.forEach(element => {
-            
-            if (element.email == usuario) {
 
-                document.getElementById('emailUser').value == element.email
-                document.getElementById('primerNombre').value = element.name
-                document.getElementById('primerApellido').value = element.surname
-                document.getElementById('emailUser').value = element.email
-                if (element.middleName) {
-                    document.getElementById('segundoNombre').value = element.middleName
-                }
-                if (element.secondSurname) {
-                    document.getElementById('segundoApellido').value = element.secondSurname
-                }
-
-                if (element.phone) {
-                    document.getElementById('telUser').value = element.phone
-                }
+        if (datosUserByEmail.email == usuarioLocal) {
+            document.getElementById('emailUser').value = datosUserByEmail.email
+            document.getElementById('primerNombre').value = datosUserByEmail.name
+            document.getElementById('primerApellido').value = datosUserByEmail.surname
+            if (datosUserByEmail.middleName) {
+                document.getElementById('segundoNombre').value = datosUserByEmail.middleName
+            }
+            if (datosUserByEmail.secondSurname) {
+                document.getElementById('segundoApellido').value = datosUserByEmail.secondSurname
             }
 
-            else{
-                document.getElementById('emailUser').value = usuario
+            if (datosUserByEmail.phone) {
+                document.getElementById('telUser').value = datosUserByEmail.phone
             }
-        });
+        }
 
-    }
+        else {
+            document.getElementById('emailUser').value = usuarioLocal
+        }
+    };
 
 }
 
@@ -59,9 +55,14 @@ function datosToLocal() {
         datosUser.phone = document.getElementById('telUser').value
     }
 
-    datosUserLocal.push(datosUser)
+    if (usuarioLocal !== document.getElementById('emailUser').value) {
+        localStorage.removeItem(usuarioLocal)
+    }
+    localStorage.setItem(datosUser.email, JSON.stringify(datosUser))
+    localStorage.setItem('User', datosUser.email)
 
-    localStorage.setItem('datosUserLocal', JSON.stringify(datosUserLocal))
+
+
 }
 
 
