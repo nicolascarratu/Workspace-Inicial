@@ -58,6 +58,8 @@ function datosToLocal() {
     if (usuarioLocal !== document.getElementById('emailUser').value) {
         localStorage.removeItem(usuarioLocal)
     }
+
+
     localStorage.setItem(datosUser.email, JSON.stringify(datosUser))
     localStorage.setItem('User', datosUser.email)
 
@@ -74,7 +76,6 @@ function validacionForm() {
             event.stopPropagation()
         }
         else {
-
             datosToLocal()
         }
 
@@ -86,3 +87,4 @@ document.addEventListener('DOMContentLoaded', function () {
     validacionForm()
     datosUsuario()
 })
+console.log(document.getElementById('imgProfile').value)
