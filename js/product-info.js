@@ -79,7 +79,7 @@ function showProduct(array) {
     
     <div class="col-md-3">
       <div class="thumbnail">
-       <img src="${product.image}" alt="${product.name}" style="width:100%">
+       <img src="${product.image}" alt="${product.name}" class='w-100'>
        <div class="caption">
           <p>${product.name}</p>
         </div>

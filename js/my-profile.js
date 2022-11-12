@@ -7,34 +7,53 @@ if (usuarioLocal == null) {
 }
 
 function datosUsuario() {
-    let email = document.getElementById('emailUser').value
+    let email = document.getElementById('emailUser')
     datosUserByEmail = JSON.parse(localStorage.getItem(usuarioLocal))
-    if (datosUserByEmail == null) {
-        email = usuarioLocal
-    }
 
-    else {
 
-        if (datosUserByEmail.email == usuarioLocal) {
-            document.getElementById('emailUser').value = datosUserByEmail.email
-            document.getElementById('primerNombre').value = datosUserByEmail.name
-            document.getElementById('primerApellido').value = datosUserByEmail.surname
-            if (datosUserByEmail.middleName) {
-                document.getElementById('segundoNombre').value = datosUserByEmail.middleName
-            }
-            if (datosUserByEmail.secondSurname) {
-                document.getElementById('segundoApellido').value = datosUserByEmail.secondSurname
-            }
+    if (datosUserByEmail.email == usuarioLocal) {
+        document.getElementById('emailUser').value = datosUserByEmail.email
+        document.getElementById('primerNombre').value = datosUserByEmail.name
+        document.getElementById('primerApellido').value = datosUserByEmail.surname
+        if (datosUserByEmail.middleName) {
+            document.getElementById('segundoNombre').value = datosUserByEmail.middleName
+        }
+        if (datosUserByEmail.secondSurname) {
+            document.getElementById('segundoApellido').value = datosUserByEmail.secondSurname
+        }
 
-            if (datosUserByEmail.phone) {
-                document.getElementById('telUser').value = datosUserByEmail.phone
-            }
+        if (datosUserByEmail.phone) {
+            document.getElementById('telUser').value = datosUserByEmail.phone
+        }
+
+        if (datosUserByEmail.photo) {
+            STORAGE_IMG = datosUserByEmail.photo
+            const IMG_PROF = new Image()
+            IMG_PROF.src = STORAGE_IMG
+
+            document.getElementById('perfil').appendChild(IMG_PROF)
+            document.getElementById('perfil').getElementsByTagName('img')[0].classList.add('col-1')
         }
 
         else {
-            document.getElementById('emailUser').value = usuarioLocal
+            const DEF_IMG_PATH = 'img/img_perfil.png'
+            const DEF_IMG = new Image()
+            DEF_IMG.src = DEF_IMG_PATH
+            document.getElementById('perfil').appendChild(DEF_IMG)
+            document.getElementById('perfil').getElementsByTagName('img')[0].classList.add('col-1')
         }
-    };
+    }
+
+    else {
+        email.value = usuarioLocal
+        const DEF_IMG_PATH = 'img/img_perfil.png'
+        const DEF_IMG = new Image()
+        DEF_IMG.src = DEF_IMG_PATH
+        document.getElementById('perfil').appendChild(DEF_IMG)
+        document.getElementById('perfil').getElementsByTagName('img')[0].classList.add('col-1')
+
+    }
+
 
 }
 
@@ -60,10 +79,28 @@ function datosToLocal() {
     }
 
 
+
     localStorage.setItem(datosUser.email, JSON.stringify(datosUser))
     localStorage.setItem('User', datosUser.email)
 
 
+
+}
+
+function imgSelect() {
+    document.getElementById('imgProfile').addEventListener('change', () => {
+        const IMGREADER = new FileReader()
+        IMGREADER.readAsDataURL(document.getElementById('imgProfile').files[0])
+        IMGREADER.addEventListener('load', () => {
+            const URLIMG = IMGREADER.result
+            const IMG = new Image()
+            IMG.src = URLIMG
+            document.getElementById('perfil').appendChild(IMG)
+            document.getElementById('perfil').getElementsByTagName('img')[0].classList.add('col-1')
+            datosUser.photo = URLIMG
+        })
+    })
+    return true
 
 }
 
@@ -86,5 +123,6 @@ function validacionForm() {
 document.addEventListener('DOMContentLoaded', function () {
     validacionForm()
     datosUsuario()
+    imgSelect()
+
 })
-console.log(document.getElementById('imgProfile').value)
