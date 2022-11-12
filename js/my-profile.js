@@ -27,33 +27,15 @@ function datosUsuario() {
         }
 
         if (datosUserByEmail.photo) {
-            STORAGE_IMG = datosUserByEmail.photo
-            const IMG_PROF = new Image()
-            IMG_PROF.src = STORAGE_IMG
-
-            document.getElementById('perfil').appendChild(IMG_PROF)
-            document.getElementById('perfil').getElementsByTagName('img')[0].classList.add('col-1')
+            document.getElementById('perfilPic').src  = datosUserByEmail.photo
         }
 
-        else {
-            const DEF_IMG_PATH = 'img/img_perfil.png'
-            const DEF_IMG = new Image()
-            DEF_IMG.src = DEF_IMG_PATH
-            document.getElementById('perfil').appendChild(DEF_IMG)
-            document.getElementById('perfil').getElementsByTagName('img')[0].classList.add('col-1')
-        }
     }
 
     else {
         email.value = usuarioLocal
-        const DEF_IMG_PATH = 'img/img_perfil.png'
-        const DEF_IMG = new Image()
-        DEF_IMG.src = DEF_IMG_PATH
-        document.getElementById('perfil').appendChild(DEF_IMG)
-        document.getElementById('perfil').getElementsByTagName('img')[0].classList.add('col-1')
 
     }
-
 
 }
 
@@ -74,16 +56,18 @@ function datosToLocal() {
         datosUser.phone = document.getElementById('telUser').value
     }
 
+    if (document.getElementById('perfilPic').src != 'img/img_perfil.png') {
+        datosUser.photo = document.getElementById('perfilPic').src
+        
+    }
+    
     if (usuarioLocal !== document.getElementById('emailUser').value) {
         localStorage.removeItem(usuarioLocal)
     }
 
-
-
+    
     localStorage.setItem(datosUser.email, JSON.stringify(datosUser))
     localStorage.setItem('User', datosUser.email)
-
-
 
 }
 
@@ -93,15 +77,10 @@ function imgSelect() {
         IMGREADER.readAsDataURL(document.getElementById('imgProfile').files[0])
         IMGREADER.addEventListener('load', () => {
             const URLIMG = IMGREADER.result
-            const IMG = new Image()
-            IMG.src = URLIMG
-            document.getElementById('perfil').appendChild(IMG)
-            document.getElementById('perfil').getElementsByTagName('img')[0].classList.add('col-1')
+            document.getElementById('perfilPic').src = URLIMG
             datosUser.photo = URLIMG
         })
     })
-    return true
-
 }
 
 
