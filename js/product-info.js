@@ -221,6 +221,7 @@ function showAllOrLess() {
 
 }
 
+//Función que es llamada al clickear en el botón de compra. Lo añade al carrito si no está ya añadido.
 function sendToCart(array) {
     let product = array
     let cartProduct = {}

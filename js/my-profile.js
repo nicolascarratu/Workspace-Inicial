@@ -2,10 +2,13 @@ let usuarioLocal = localStorage.getItem('User')
 let datosUser = {}
 let datosUserByEmail = {}
 
+//Si el usuario no está con la sesión iniciada, se redirige a la página de inicio para que pueda hacerlo.
 if (usuarioLocal == null) {
     window.location = 'index.html'
 }
 
+//Función para mostrar los datos del usuario en pantalla. Como mínimo se va a mostrar su email, y si guardó
+//previamente otros datos, también se mostrarán.
 function datosUsuario() {
     let email = document.getElementById('emailUser')
     datosUserByEmail = JSON.parse(localStorage.getItem(usuarioLocal))
@@ -39,6 +42,7 @@ function datosUsuario() {
 
 }
 
+//Guarda los datos del usuario en el local storage para poder mostrarlos luego de recargar la página.
 function datosToLocal() {
     datosUser.name = document.getElementById('primerNombre').value
     datosUser.surname = document.getElementById('primerApellido').value
@@ -71,6 +75,7 @@ function datosToLocal() {
 
 }
 
+// Se encarga de guardar la imagen en el local storage.
 function imgSelect() {
     document.getElementById('imgProfile').addEventListener('change', () => {
         const IMGREADER = new FileReader()
@@ -83,7 +88,8 @@ function imgSelect() {
     })
 }
 
-
+//Si a la hora de modificar los datos no están especificados 'nombre', 'apellido' y 'email', no se permitirá
+//guardar los cambios.
 function validacionForm() {
     var form = document.getElementById('cambiosUsuario')
     form.addEventListener('submit', function (event) {

@@ -16,8 +16,6 @@ document.getElementById('boton').addEventListener('click', function () {
         window.location.href = 'portada.html';
 
     } else {
-        document.getElementById('email').className = 'error_box'
-        document.getElementById('password').className = 'error_box'
         alert('Los datos no pueden estar vacios')
     }
 })
